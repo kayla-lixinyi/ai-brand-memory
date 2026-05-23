@@ -18,7 +18,7 @@ import { Sparkles, Lock, AlertCircle } from 'lucide-react';
 
 export default function PortalLoginPage() {
   const router = useRouter();
-  const [brandId, setBrandId] = useState('florasis');
+  const [brandId, setBrandId] = useState('judydoll');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -94,9 +94,9 @@ export default function PortalLoginPage() {
         <div className="text-center space-y-1">
           <p className="text-xs text-muted-foreground">Demo 密码：</p>
           <div className="flex justify-center gap-3 text-xs text-muted-foreground">
-            <span>花西子: florasis2024</span>
-            <span>完美日记: pd2024</span>
-            <span>花知晓: fk2024</span>
+            <span>橘朵: judydoll2024</span>
+            <span>INTO YOU: intoyou2024</span>
+            <span>Colorkey: colorkey2024</span>
           </div>
         </div>
       </Card>

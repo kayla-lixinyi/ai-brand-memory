@@ -23,7 +23,7 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
   if (viewMode === 'list') {
     return (
       <Link href={`/assets/${asset.id}`}>
-        <Card className="flex items-center gap-4 p-3 hover:shadow-md transition-shadow cursor-pointer group">
+        <Card className="flex items-center gap-4 p-3 hover:shadow-md hover:shadow-primary/5 transition-shadow cursor-pointer group">
           {/* Thumbnail */}
           <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
             <img src={asset.thumbnailUrl} alt={asset.name} className="w-full h-full object-cover" />
@@ -67,7 +67,7 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
 
   return (
     <Link href={`/assets/${asset.id}`}>
-      <Card className="overflow-hidden hover:shadow-lg transition-all cursor-pointer group border-border/60">
+      <Card className="overflow-hidden hover:shadow-lg hover:shadow-primary/5 transition-all cursor-pointer group border-border/40">
         {/* Thumbnail */}
         <div className="relative aspect-square bg-muted overflow-hidden">
           <img

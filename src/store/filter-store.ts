@@ -26,7 +26,7 @@ const defaultFilters: AssetFilters = {
   channels: [],
   categories: [],
   tags: [],
-  brandId: 'florasis',
+  brandId: 'judydoll',
 };
 
 export const useFilterStore = create<FilterState>((set, get) => ({
@@ -35,7 +35,7 @@ export const useFilterStore = create<FilterState>((set, get) => ({
   searchMode: 'fulltext',
   sortBy: 'newest',
   viewMode: 'grid',
-  activeBrandId: 'florasis',
+  activeBrandId: 'judydoll',
   setFilter: (key, value) =>
     set((state) => ({ filters: { ...state.filters, [key]: value } })),
   setSearchQuery: (q) => set({ searchQuery: q }),

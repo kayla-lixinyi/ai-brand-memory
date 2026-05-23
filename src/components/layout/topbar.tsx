@@ -21,7 +21,7 @@ export function Topbar() {
   const activeBrand = brands.find((b) => b.id === activeBrandId);
 
   return (
-    <header className="flex items-center justify-between h-14 px-4 border-b border-border bg-background/80 backdrop-blur-sm">
+    <header className="flex items-center justify-between h-14 px-4 border-b border-border/60 bg-background/80 backdrop-blur-sm shadow-[0_1px_3px_0_rgb(0_0_0/0.04)]">
       {/* Brand Switcher */}
       <div className="flex items-center gap-3">
         <Select value={activeBrandId} onValueChange={(v) => v && setActiveBrandId(v)}>

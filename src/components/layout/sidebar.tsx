@@ -30,14 +30,14 @@ export function Sidebar() {
         )}
       >
         {/* Logo */}
-        <div className={cn('flex items-center gap-2 px-4 h-14 border-b border-border', sidebarCollapsed && 'justify-center px-0')}>
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground">
+        <div className={cn('flex items-center gap-2.5 px-4 h-14 border-b border-sidebar-border', sidebarCollapsed && 'justify-center px-0')}>
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-primary text-primary-foreground shadow-sm">
             <Sparkles className="w-4 h-4" />
           </div>
           {!sidebarCollapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-sidebar-foreground">AI Brand Memory</span>
-              <span className="text-[10px] text-muted-foreground">DAM Platform</span>
+              <span className="text-sm font-semibold text-sidebar-foreground tracking-tight">AI Brand Memory</span>
+              <span className="text-[10px] text-sidebar-foreground/50">DAM Platform</span>
             </div>
           )}
         </div>
@@ -52,7 +52,7 @@ export function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
                   isActive
                     ? 'bg-sidebar-accent text-sidebar-primary'
                     : 'text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',

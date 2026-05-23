@@ -17,7 +17,7 @@ const allChannels: Channel[] = ['shopee', 'tiktok', 'google', 'instagram', 'laza
 export default function PortalBrowsePage() {
   const router = useRouter();
   const assets = useAssetStore((s) => s.assets);
-  const [brandId, setBrandId] = useState('florasis');
+  const [brandId, setBrandId] = useState('judydoll');
   const [selectedChannel, setSelectedChannel] = useState<Channel | 'all'>('all');
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
