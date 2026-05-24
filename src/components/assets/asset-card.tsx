@@ -40,7 +40,7 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
                 {statusCfg.label}
               </Badge>
               <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[asset.category]}</span>
-              <span className="text-xs text-muted-foreground">{asset.width}x{asset.height}</span>
+              {asset.width > 0 && <span className="text-xs text-muted-foreground">{asset.width}x{asset.height}</span>}
             </div>
           </div>
 

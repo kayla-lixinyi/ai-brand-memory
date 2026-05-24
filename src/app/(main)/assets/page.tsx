@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { LayoutGrid, List, SlidersHorizontal, PackageOpen, Images } from 'lucide-react';
+import { LayoutGrid, List, SlidersHorizontal, PackageOpen } from 'lucide-react';
 
 function AssetGridSkeleton() {
   return (

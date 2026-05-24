@@ -145,7 +145,7 @@ export default function SettingsPage() {
           <SettingRow
             icon={Bell}
             title="飞书通知"
-            desc="审批结果、素材过期提醒同步到飞书「橘朵素材管理」群"
+            desc={`审批结果、素材过期提醒同步到飞书「${brand?.name || '品牌'}素材管理」群`}
             defaultChecked
           />
         </div>

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Brand Memory | DAM Platform",
-  description: "AI-powered Digital Asset Management for beauty brands going global",
+  title: "AI Brand Memory | 智能素材管理平台",
+  description: "AI 驱动的品牌素材管理系统，助力美妆品牌出海",
 };
 
 export default function RootLayout({

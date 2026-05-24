@@ -39,7 +39,7 @@ export default function ApprovalPage() {
 
   const handleApprove = (itemId: string, assetId: string) => {
     approve(itemId, currentUser.id);
-    updateAssetStatus(assetId, 'approved', currentUser.id, currentUser.name);
+    updateAssetStatus(assetId, 'approved', '审核通过', currentUser.id, currentUser.name);
     setShowFeishu(true);
     setTimeout(() => setShowFeishu(false), 4000);
   };
@@ -49,7 +49,7 @@ export default function ApprovalPage() {
     const item = items.find((i) => i.id === rejectDialog.itemId);
     if (item) {
       reject(rejectDialog.itemId, currentUser.id, rejectReason);
-      updateAssetStatus(item.assetId, 'rejected', currentUser.id, currentUser.name, rejectReason);
+      updateAssetStatus(item.assetId, 'rejected', rejectReason, currentUser.id, currentUser.name);
     }
     setRejectDialog({ open: false, itemId: '' });
     setRejectReason('');
@@ -60,7 +60,7 @@ export default function ApprovalPage() {
     batchApprove(ids, currentUser.id);
     ids.forEach((itemId) => {
       const item = items.find((i) => i.id === itemId);
-      if (item) updateAssetStatus(item.assetId, 'approved', currentUser.id, currentUser.name);
+      if (item) updateAssetStatus(item.assetId, 'approved', '批量审核通过', currentUser.id, currentUser.name);
     });
     setSelected(new Set());
     setShowFeishu(true);

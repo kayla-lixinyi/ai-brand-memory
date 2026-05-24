@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { useAssetStore } from '@/store/asset-store';
 import { useFilterStore } from '@/store/filter-store';
-import { Asset } from '@/types';
+import { Asset, SIZE_PRESETS } from '@/types';
 
 export function useAssets() {
   const assets = useAssetStore((s) => s.assets);
@@ -30,6 +30,12 @@ export function useAssets() {
     }
     if (filters.sku) {
       result = result.filter((a) => a.sku.toLowerCase().includes(filters.sku!.toLowerCase()));
+    }
+    if (filters.sizePreset) {
+      const preset = SIZE_PRESETS.find((p) => p.label === filters.sizePreset);
+      if (preset) {
+        result = result.filter((a) => a.width === preset.width && a.height === preset.height);
+      }
     }
 
     // Fulltext search

@@ -17,7 +17,10 @@ export default function DashboardPage() {
   const approvalItems = useApprovalStore((s) => s.items);
   const { activeBrandId } = useFilterStore();
 
-  const pendingItems = useMemo(() => approvalItems.filter((i) => i.status === 'pending'), [approvalItems]);
+  const pendingItems = useMemo(() => {
+    const brandAssetIds = new Set(assets.filter((a) => a.brandId === activeBrandId).map((a) => a.id));
+    return approvalItems.filter((i) => i.status === 'pending' && brandAssetIds.has(i.assetId));
+  }, [approvalItems, assets, activeBrandId]);
   const brandAssets = useMemo(() => assets.filter((a) => a.brandId === activeBrandId), [assets, activeBrandId]);
   const totalAssets = brandAssets.length;
   const pendingCount = pendingItems.length;

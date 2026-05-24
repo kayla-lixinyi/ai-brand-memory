@@ -190,7 +190,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
                   </React.Fragment>
                 );
               })}
-              {/* Rejected branch */}
+              {/* Rejected + Archived branches */}
               <div className="flex items-center gap-2 ml-2 pl-2 border-l border-border/40">
                 <div className={cn(
                   'px-4 py-2 rounded-full text-xs font-semibold border-2 whitespace-nowrap',
@@ -199,6 +199,14 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
                     : 'bg-background text-muted-foreground/40 border-border/30'
                 )}>
                   {STATUS_CONFIG.rejected.label}
+                </div>
+                <div className={cn(
+                  'px-4 py-2 rounded-full text-xs font-semibold border-2 whitespace-nowrap',
+                  asset.status === 'archived'
+                    ? `${STATUS_CONFIG.archived.bgClass} ${STATUS_CONFIG.archived.textClass} border-current shadow-sm`
+                    : 'bg-background text-muted-foreground/40 border-border/30'
+                )}>
+                  {STATUS_CONFIG.archived.label}
                 </div>
               </div>
             </div>

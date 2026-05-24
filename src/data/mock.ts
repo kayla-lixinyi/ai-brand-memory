@@ -20,8 +20,47 @@ export const users: User[] = [
 ];
 
 // ==================== Helper ====================
-function seedImg(seed: string, w = 400, h = 400) {
-  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
+/** Map asset id → local generated image */
+const assetImg: Record<string, string> = {
+  a1: '/images/a1-judydoll-velvet-lip.png',
+  a2: '/images/a2-judydoll-lip-tiktok.png',
+  a3: '/images/a3-judydoll-powder.png',
+  a4: '/images/a4-judydoll-eyeshadow-palette.png',
+  a5: '/images/a5-judydoll-summer-poster.png',
+  a6: '/images/a6-judydoll-brand-guide.png',
+  a7: '/images/a7-judydoll-lip-swatch-video.png',
+  a8: '/images/a8-judydoll-blush.png',
+  a9: '/images/a9-judydoll-lip-old.png',
+  a10: '/images/a10-judydoll-eyebrow.png',
+  a11: '/images/a11-intoyou-water-gloss.png',
+  a12: '/images/a12-intoyou-matte-lip.png',
+  a13: '/images/a13-intoyou-foundation.png',
+  a14: '/images/a14-intoyou-618-poster.png',
+  a15: '/images/a15-intoyou-mascara.png',
+  a16: '/images/a16-intoyou-cleanser.png',
+  a17: '/images/a17-intoyou-brand-video.png',
+  a18: '/images/a18-intoyou-loose-powder.png',
+  a19: '/images/a19-intoyou-rejected-poster.png',
+  a20: '/images/a20-intoyou-archived.png',
+  a21: '/images/a21-colorkey-air-lip.png',
+  a22: '/images/a22-colorkey-eyeliner.png',
+  a23: '/images/a23-colorkey-eyeshadow.png',
+  a24: '/images/a24-colorkey-anniversary-poster.png',
+  a25: '/images/a25-colorkey-setting-spray.png',
+  a26: '/images/a26-colorkey-brand-video.png',
+  a27: '/images/a27-colorkey-concealer.png',
+  a28: '/images/a28-colorkey-expired-event.png',
+  a29: '/images/a29-colorkey-blush-archived.png',
+  a30: '/images/a30-colorkey-skincare-set.png',
+  a31: '/images/a31-judydoll-loose-powder.png',
+  a32: '/images/a32-judydoll-highlight-contour.png',
+  a33: '/images/a33-judydoll-color-eyeshadow.png',
+  a34: '/images/a34-judydoll-cleansing-balm.png',
+  a35: '/images/a35-judydoll-lip-color-chart.png',
+};
+
+function img(assetId: string) {
+  return assetImg[assetId] ?? '/images/a1-judydoll-velvet-lip.png';
 }
 
 function dateStr(daysAgo: number) {
@@ -43,11 +82,11 @@ export const assets: Asset[] = [
       { label: '丝绒质感', labelEn: 'Velvet Texture', confidence: 0.92, category: 'style' },
       { label: '产品特写', labelEn: 'Product Close-up', confidence: 0.89, category: 'scene' },
     ],
-    width: 800, height: 800, fileSize: 524288, url: seedImg('judydoll-velvet-lip', 800, 800), thumbnailUrl: seedImg('judydoll-velvet-lip', 400, 400),
+    width: 800, height: 800, fileSize: 524288, url: img('a1'), thumbnailUrl: img('a1'),
     versions: [
-      { version: 1, url: seedImg('judydoll-velvet-lip-v1', 800, 800), uploadedAt: dateStr(30), uploadedBy: 'u3', changeNote: '初版设计', size: 480000 },
-      { version: 2, url: seedImg('judydoll-velvet-lip-v2', 800, 800), uploadedAt: dateStr(15), uploadedBy: 'u3', changeNote: '调整色温和构图', size: 510000 },
-      { version: 3, url: seedImg('judydoll-velvet-lip', 800, 800), uploadedAt: dateStr(5), uploadedBy: 'u3', changeNote: '最终版-增加珊瑚色调', size: 524288 },
+      { version: 1, url: img('a1'), uploadedAt: dateStr(30), uploadedBy: 'u3', changeNote: '初版设计', size: 480000 },
+      { version: 2, url: img('a1'), uploadedAt: dateStr(15), uploadedBy: 'u3', changeNote: '调整色温和构图', size: 510000 },
+      { version: 3, url: img('a1'), uploadedAt: dateStr(5), uploadedBy: 'u3', changeNote: '最终版-增加珊瑚色调', size: 524288 },
     ],
     currentVersion: 3, uploadedBy: 'u3', uploadedAt: dateStr(30), updatedAt: dateStr(5), downloads: 128,
     auditTrail: [
@@ -66,10 +105,10 @@ export const assets: Asset[] = [
       { label: '竖版构图', labelEn: 'Vertical', confidence: 0.94, category: 'scene' },
       { label: '暖色调', labelEn: 'Warm Tone', confidence: 0.88, category: 'color' },
     ],
-    width: 1080, height: 1920, fileSize: 680000, url: seedImg('judydoll-lip-tiktok', 1080, 1920), thumbnailUrl: seedImg('judydoll-lip-tiktok', 400, 711),
+    width: 1080, height: 1920, fileSize: 680000, url: img('a2'), thumbnailUrl: img('a2'),
     versions: [
-      { version: 1, url: seedImg('judydoll-lip-tiktok-v1', 1080, 1920), uploadedAt: dateStr(25), uploadedBy: 'u3', changeNote: '初版', size: 650000 },
-      { version: 2, url: seedImg('judydoll-lip-tiktok', 1080, 1920), uploadedAt: dateStr(10), uploadedBy: 'u3', changeNote: '优化竖版构图', size: 680000 },
+      { version: 1, url: img('a2'), uploadedAt: dateStr(25), uploadedBy: 'u3', changeNote: '初版', size: 650000 },
+      { version: 2, url: img('a2'), uploadedAt: dateStr(10), uploadedBy: 'u3', changeNote: '优化竖版构图', size: 680000 },
     ],
     currentVersion: 2, uploadedBy: 'u3', uploadedAt: dateStr(25), updatedAt: dateStr(10), downloads: 89,
     auditTrail: [
@@ -87,8 +126,8 @@ export const assets: Asset[] = [
       { label: '裸色', labelEn: 'Nude', confidence: 0.91, category: 'color' },
       { label: '简约', labelEn: 'Minimalist', confidence: 0.85, category: 'style' },
     ],
-    width: 1200, height: 628, fileSize: 420000, url: seedImg('judydoll-powder', 1200, 628), thumbnailUrl: seedImg('judydoll-powder', 400, 209),
-    versions: [{ version: 1, url: seedImg('judydoll-powder', 1200, 628), uploadedAt: dateStr(3), uploadedBy: 'u3', changeNote: '首版', size: 420000 }],
+    width: 1200, height: 628, fileSize: 420000, url: img('a3'), thumbnailUrl: img('a3'),
+    versions: [{ version: 1, url: img('a3'), uploadedAt: dateStr(3), uploadedBy: 'u3', changeNote: '首版', size: 420000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(3), updatedAt: dateStr(3), downloads: 12,
     auditTrail: [
       { id: 'at6', action: '创建素材', toStatus: 'draft', userId: 'u3', userName: '张设计', timestamp: dateStr(3) },
@@ -106,8 +145,8 @@ export const assets: Asset[] = [
       { label: '多色盘', labelEn: 'Multi-Pan', confidence: 0.90, category: 'material' },
       { label: '少女风', labelEn: 'Girly Style', confidence: 0.88, category: 'style' },
     ],
-    width: 800, height: 800, fileSize: 560000, url: seedImg('judydoll-eyeshadow-palette', 800, 800), thumbnailUrl: seedImg('judydoll-eyeshadow-palette', 400, 400),
-    versions: [{ version: 1, url: seedImg('judydoll-eyeshadow-palette', 800, 800), uploadedAt: dateStr(12), uploadedBy: 'u3', changeNote: '七色眼影系列', size: 560000 }],
+    width: 800, height: 800, fileSize: 560000, url: img('a4'), thumbnailUrl: img('a4'),
+    versions: [{ version: 1, url: img('a4'), uploadedAt: dateStr(12), uploadedBy: 'u3', changeNote: '七色眼影系列', size: 560000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(12), updatedAt: dateStr(12), downloads: 67,
     auditTrail: [
       { id: 'at8', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u2', userName: '王品宣', timestamp: dateStr(10) },
@@ -123,10 +162,10 @@ export const assets: Asset[] = [
       { label: '珊瑚色', labelEn: 'Coral', confidence: 0.94, category: 'color' },
       { label: '清新', labelEn: 'Fresh', confidence: 0.92, category: 'scene' },
     ],
-    width: 1080, height: 1080, fileSize: 720000, url: seedImg('judydoll-summer-poster', 1080, 1080), thumbnailUrl: seedImg('judydoll-summer-poster', 400, 400),
+    width: 1080, height: 1080, fileSize: 720000, url: img('a5'), thumbnailUrl: img('a5'),
     versions: [
-      { version: 1, url: seedImg('judydoll-summer-poster-v1', 1080, 1080), uploadedAt: dateStr(20), uploadedBy: 'u3', changeNote: '初版', size: 700000 },
-      { version: 2, url: seedImg('judydoll-summer-poster', 1080, 1080), uploadedAt: dateStr(14), uploadedBy: 'u3', changeNote: '增加促销信息', size: 720000 },
+      { version: 1, url: img('a5'), uploadedAt: dateStr(20), uploadedBy: 'u3', changeNote: '初版', size: 700000 },
+      { version: 2, url: img('a5'), uploadedAt: dateStr(14), uploadedBy: 'u3', changeNote: '增加促销信息', size: 720000 },
     ],
     currentVersion: 2, uploadedBy: 'u3', uploadedAt: dateStr(20), updatedAt: dateStr(14), downloads: 45,
     auditTrail: [
@@ -139,7 +178,7 @@ export const assets: Asset[] = [
     brandId: 'judydoll', type: 'document', category: 'brand_doc', status: 'approved',
     channels: ['official_site'], tags: ['品牌指南', 'VI', '规范'], sku: 'JD-DOC-001',
     aiTags: [{ label: '品牌文档', labelEn: 'Brand Document', confidence: 0.99, category: 'product' }],
-    width: 0, height: 0, fileSize: 15000000, url: '#', thumbnailUrl: seedImg('judydoll-brand-guide', 400, 300),
+    width: 0, height: 0, fileSize: 15000000, url: '#', thumbnailUrl: img('a6'),
     versions: [{ version: 1, url: '#', uploadedAt: dateStr(60), uploadedBy: 'u2', changeNote: '品牌规范手册', size: 15000000 }],
     currentVersion: 1, uploadedBy: 'u2', uploadedAt: dateStr(60), updatedAt: dateStr(60), downloads: 234,
     auditTrail: [
@@ -156,7 +195,7 @@ export const assets: Asset[] = [
       { label: '试色', labelEn: 'Swatch', confidence: 0.93, category: 'scene' },
       { label: '珊瑚色系', labelEn: 'Coral Tones', confidence: 0.88, category: 'color' },
     ],
-    width: 1080, height: 1920, fileSize: 45000000, url: '#', thumbnailUrl: seedImg('judydoll-lip-swatch-video', 400, 711),
+    width: 1080, height: 1920, fileSize: 45000000, url: '#', thumbnailUrl: img('a7'),
     versions: [{ version: 1, url: '#', uploadedAt: dateStr(2), uploadedBy: 'u3', changeNote: '试色视频初版', size: 45000000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(2), updatedAt: dateStr(2), downloads: 5,
     auditTrail: [
@@ -172,8 +211,8 @@ export const assets: Asset[] = [
       { label: '腮红', labelEn: 'Blush', confidence: 0.96, category: 'product' },
       { label: '蜜桃色', labelEn: 'Peach', confidence: 0.92, category: 'color' },
     ],
-    width: 800, height: 800, fileSize: 380000, url: seedImg('judydoll-blush-peach', 800, 800), thumbnailUrl: seedImg('judydoll-blush-peach', 400, 400),
-    versions: [{ version: 1, url: seedImg('judydoll-blush-peach', 800, 800), uploadedAt: dateStr(1), uploadedBy: 'u3', changeNote: '草稿', size: 380000 }],
+    width: 800, height: 800, fileSize: 380000, url: img('a8'), thumbnailUrl: img('a8'),
+    versions: [{ version: 1, url: img('a8'), uploadedAt: dateStr(1), uploadedBy: 'u3', changeNote: '草稿', size: 380000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(1), updatedAt: dateStr(1), downloads: 0,
     auditTrail: [
       { id: 'at12', action: '创建素材', toStatus: 'draft', userId: 'u3', userName: '张设计', timestamp: dateStr(1) },
@@ -185,8 +224,8 @@ export const assets: Asset[] = [
     brandId: 'judydoll', type: 'image', category: 'lipstick', status: 'expired',
     channels: ['shopee'], tags: ['唇釉', '旧版', '过期'], sku: 'JD-LP-001',
     aiTags: [{ label: '唇釉', labelEn: 'Lip Glaze', confidence: 0.97, category: 'product' }],
-    width: 800, height: 800, fileSize: 450000, url: seedImg('judydoll-lip-old', 800, 800), thumbnailUrl: seedImg('judydoll-lip-old', 400, 400),
-    versions: [{ version: 1, url: seedImg('judydoll-lip-old', 800, 800), uploadedAt: dateStr(120), uploadedBy: 'u3', changeNote: '旧版', size: 450000 }],
+    width: 800, height: 800, fileSize: 450000, url: img('a9'), thumbnailUrl: img('a9'),
+    versions: [{ version: 1, url: img('a9'), uploadedAt: dateStr(120), uploadedBy: 'u3', changeNote: '旧版', size: 450000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(120), updatedAt: dateStr(30), expiresAt: dateStr(5), downloads: 340,
     auditTrail: [
       { id: 'at13', action: '素材过期', fromStatus: 'approved', toStatus: 'expired', userId: 'u1', userName: '系统', timestamp: dateStr(5), note: '超过有效期自动过期' },
@@ -195,11 +234,11 @@ export const assets: Asset[] = [
   },
   {
     id: 'a10', name: '橘朵_眉笔_被拒素材', fileName: 'judydoll_eyebrow_rejected.jpg',
-    brandId: 'judydoll', type: 'image', category: 'lipstick', status: 'rejected',
+    brandId: 'judydoll', type: 'image', category: 'eyeshadow', status: 'rejected',
     channels: ['shopee'], tags: ['眉笔', '被拒'], sku: 'JD-EB-001',
     aiTags: [{ label: '眉笔', labelEn: 'Eyebrow Pencil', confidence: 0.94, category: 'product' }],
-    width: 800, height: 800, fileSize: 320000, url: seedImg('jd-eyebrow', 800, 800), thumbnailUrl: seedImg('jd-eyebrow', 400, 400),
-    versions: [{ version: 1, url: seedImg('jd-eyebrow', 800, 800), uploadedAt: dateStr(8), uploadedBy: 'u3', changeNote: '初版', size: 320000 }],
+    width: 800, height: 800, fileSize: 320000, url: img('a10'), thumbnailUrl: img('a10'),
+    versions: [{ version: 1, url: img('a10'), uploadedAt: dateStr(8), uploadedBy: 'u3', changeNote: '初版', size: 320000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(8), updatedAt: dateStr(6), downloads: 0,
     auditTrail: [
       { id: 'at14', action: '审核拒绝', fromStatus: 'in_review', toStatus: 'rejected', userId: 'u4', userName: '李审核', timestamp: dateStr(6), note: '图片分辨率不足，色彩偏差较大' },
@@ -217,10 +256,10 @@ export const assets: Asset[] = [
       { label: '水光感', labelEn: 'Glossy', confidence: 0.94, category: 'style' },
       { label: '玫红色', labelEn: 'Rose', confidence: 0.87, category: 'color' },
     ],
-    width: 800, height: 800, fileSize: 490000, url: seedImg('intoyou-water-gloss', 800, 800), thumbnailUrl: seedImg('intoyou-water-gloss', 400, 400),
+    width: 800, height: 800, fileSize: 490000, url: img('a11'), thumbnailUrl: img('a11'),
     versions: [
-      { version: 1, url: seedImg('intoyou-water-gloss-v1', 800, 800), uploadedAt: dateStr(22), uploadedBy: 'u8', changeNote: '初版', size: 470000 },
-      { version: 2, url: seedImg('intoyou-water-gloss', 800, 800), uploadedAt: dateStr(15), uploadedBy: 'u8', changeNote: '优化产品角度', size: 490000 },
+      { version: 1, url: img('a11'), uploadedAt: dateStr(22), uploadedBy: 'u8', changeNote: '初版', size: 470000 },
+      { version: 2, url: img('a11'), uploadedAt: dateStr(15), uploadedBy: 'u8', changeNote: '优化产品角度', size: 490000 },
     ],
     currentVersion: 2, uploadedBy: 'u8', uploadedAt: dateStr(22), updatedAt: dateStr(15), downloads: 156,
     auditTrail: [
@@ -237,8 +276,8 @@ export const assets: Asset[] = [
       { label: '哑光', labelEn: 'Matte', confidence: 0.92, category: 'style' },
       { label: '豆沙色', labelEn: 'Bean Paste', confidence: 0.89, category: 'color' },
     ],
-    width: 1080, height: 1920, fileSize: 620000, url: seedImg('intoyou-matte-lip', 1080, 1920), thumbnailUrl: seedImg('intoyou-matte-lip', 400, 711),
-    versions: [{ version: 1, url: seedImg('intoyou-matte-lip', 1080, 1920), uploadedAt: dateStr(10), uploadedBy: 'u8', changeNote: '首版', size: 620000 }],
+    width: 1080, height: 1920, fileSize: 620000, url: img('a12'), thumbnailUrl: img('a12'),
+    versions: [{ version: 1, url: img('a12'), uploadedAt: dateStr(10), uploadedBy: 'u8', changeNote: '首版', size: 620000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(10), updatedAt: dateStr(10), downloads: 78,
     auditTrail: [
       { id: 'at16', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u4', userName: '李审核', timestamp: dateStr(8) },
@@ -253,8 +292,8 @@ export const assets: Asset[] = [
       { label: '粉底液', labelEn: 'Foundation', confidence: 0.97, category: 'product' },
       { label: '裸色', labelEn: 'Nude', confidence: 0.90, category: 'color' },
     ],
-    width: 1200, height: 628, fileSize: 410000, url: seedImg('intoyou-foundation', 1200, 628), thumbnailUrl: seedImg('intoyou-foundation', 400, 209),
-    versions: [{ version: 1, url: seedImg('intoyou-foundation', 1200, 628), uploadedAt: dateStr(18), uploadedBy: 'u3', changeNote: '首版', size: 410000 }],
+    width: 1200, height: 628, fileSize: 410000, url: img('a13'), thumbnailUrl: img('a13'),
+    versions: [{ version: 1, url: img('a13'), uploadedAt: dateStr(18), uploadedBy: 'u3', changeNote: '首版', size: 410000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(18), updatedAt: dateStr(18), downloads: 52,
     auditTrail: [
       { id: 'at17', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u5', userName: '陈美妆', timestamp: dateStr(16) },
@@ -270,11 +309,11 @@ export const assets: Asset[] = [
       { label: '红色', labelEn: 'Red', confidence: 0.95, category: 'color' },
       { label: '节日', labelEn: 'Festival', confidence: 0.91, category: 'scene' },
     ],
-    width: 1080, height: 1080, fileSize: 850000, url: seedImg('intoyou-618-poster', 1080, 1080), thumbnailUrl: seedImg('intoyou-618-poster', 400, 400),
+    width: 1080, height: 1080, fileSize: 850000, url: img('a14'), thumbnailUrl: img('a14'),
     versions: [
-      { version: 1, url: seedImg('intoyou-618-poster-v1', 1080, 1080), uploadedAt: dateStr(35), uploadedBy: 'u8', changeNote: '初版', size: 780000 },
-      { version: 2, url: seedImg('intoyou-618-poster-v2', 1080, 1080), uploadedAt: dateStr(28), uploadedBy: 'u8', changeNote: '增加折扣信息', size: 810000 },
-      { version: 3, url: seedImg('intoyou-618-poster', 1080, 1080), uploadedAt: dateStr(20), uploadedBy: 'u8', changeNote: '最终审核版', size: 850000 },
+      { version: 1, url: img('a14'), uploadedAt: dateStr(35), uploadedBy: 'u8', changeNote: '初版', size: 780000 },
+      { version: 2, url: img('a14'), uploadedAt: dateStr(28), uploadedBy: 'u8', changeNote: '增加折扣信息', size: 810000 },
+      { version: 3, url: img('a14'), uploadedAt: dateStr(20), uploadedBy: 'u8', changeNote: '最终审核版', size: 850000 },
     ],
     currentVersion: 3, uploadedBy: 'u8', uploadedAt: dateStr(35), updatedAt: dateStr(20), downloads: 203,
     auditTrail: [
@@ -290,8 +329,8 @@ export const assets: Asset[] = [
       { label: '睫毛膏', labelEn: 'Mascara', confidence: 0.97, category: 'product' },
       { label: '黑色', labelEn: 'Black', confidence: 0.95, category: 'color' },
     ],
-    width: 800, height: 800, fileSize: 390000, url: seedImg('intoyou-mascara', 800, 800), thumbnailUrl: seedImg('intoyou-mascara', 400, 400),
-    versions: [{ version: 1, url: seedImg('intoyou-mascara', 800, 800), uploadedAt: dateStr(4), uploadedBy: 'u8', changeNote: '新品首版', size: 390000 }],
+    width: 800, height: 800, fileSize: 390000, url: img('a15'), thumbnailUrl: img('a15'),
+    versions: [{ version: 1, url: img('a15'), uploadedAt: dateStr(4), uploadedBy: 'u8', changeNote: '新品首版', size: 390000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(4), updatedAt: dateStr(4), downloads: 8,
     auditTrail: [
       { id: 'at19', action: '提交审核', fromStatus: 'draft', toStatus: 'in_review', userId: 'u8', userName: '吴策划', timestamp: dateStr(3) },
@@ -307,8 +346,8 @@ export const assets: Asset[] = [
       { label: '蓝色', labelEn: 'Blue', confidence: 0.88, category: 'color' },
       { label: '清爽', labelEn: 'Fresh', confidence: 0.84, category: 'style' },
     ],
-    width: 1080, height: 1080, fileSize: 440000, url: seedImg('intoyou-cleanser', 1080, 1080), thumbnailUrl: seedImg('intoyou-cleanser', 400, 400),
-    versions: [{ version: 1, url: seedImg('intoyou-cleanser', 1080, 1080), uploadedAt: dateStr(5), uploadedBy: 'u3', changeNote: '首版', size: 440000 }],
+    width: 1080, height: 1080, fileSize: 440000, url: img('a16'), thumbnailUrl: img('a16'),
+    versions: [{ version: 1, url: img('a16'), uploadedAt: dateStr(5), uploadedBy: 'u3', changeNote: '首版', size: 440000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(5), updatedAt: dateStr(5), downloads: 3,
     auditTrail: [
       { id: 'at20', action: '提交审核', fromStatus: 'draft', toStatus: 'in_review', userId: 'u3', userName: '张设计', timestamp: dateStr(4) },
@@ -323,7 +362,7 @@ export const assets: Asset[] = [
       { label: '品牌视频', labelEn: 'Brand Video', confidence: 0.98, category: 'product' },
       { label: '叙事', labelEn: 'Narrative', confidence: 0.86, category: 'scene' },
     ],
-    width: 1920, height: 1080, fileSize: 120000000, url: '#', thumbnailUrl: seedImg('intoyou-brand-video', 400, 225),
+    width: 1920, height: 1080, fileSize: 120000000, url: '#', thumbnailUrl: img('a17'),
     versions: [{ version: 1, url: '#', uploadedAt: dateStr(40), uploadedBy: 'u5', changeNote: '品牌宣传片', size: 120000000 }],
     currentVersion: 1, uploadedBy: 'u5', uploadedAt: dateStr(40), updatedAt: dateStr(40), downloads: 67,
     auditTrail: [
@@ -336,8 +375,8 @@ export const assets: Asset[] = [
     brandId: 'into_you', type: 'image', category: 'foundation', status: 'draft',
     channels: ['shopee'], tags: ['散粉', '控油', '草稿'], sku: 'IY-LP-006',
     aiTags: [{ label: '散粉', labelEn: 'Loose Powder', confidence: 0.94, category: 'product' }],
-    width: 800, height: 800, fileSize: 350000, url: seedImg('intoyou-loose-powder', 800, 800), thumbnailUrl: seedImg('intoyou-loose-powder', 400, 400),
-    versions: [{ version: 1, url: seedImg('intoyou-loose-powder', 800, 800), uploadedAt: dateStr(1), uploadedBy: 'u8', changeNote: '草稿', size: 350000 }],
+    width: 800, height: 800, fileSize: 350000, url: img('a18'), thumbnailUrl: img('a18'),
+    versions: [{ version: 1, url: img('a18'), uploadedAt: dateStr(1), uploadedBy: 'u8', changeNote: '草稿', size: 350000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(1), updatedAt: dateStr(1), downloads: 0,
     auditTrail: [
       { id: 'at22', action: '创建素材', toStatus: 'draft', userId: 'u8', userName: '吴策划', timestamp: dateStr(1) },
@@ -349,8 +388,8 @@ export const assets: Asset[] = [
     brandId: 'into_you', type: 'image', category: 'poster', status: 'rejected',
     channels: ['shopee'], tags: ['海报', '被拒'], sku: 'IY-PS-002',
     aiTags: [{ label: '海报', labelEn: 'Poster', confidence: 0.96, category: 'product' }],
-    width: 800, height: 800, fileSize: 550000, url: seedImg('iy-rejected', 800, 800), thumbnailUrl: seedImg('iy-rejected', 400, 400),
-    versions: [{ version: 1, url: seedImg('iy-rejected', 800, 800), uploadedAt: dateStr(10), uploadedBy: 'u8', changeNote: '初版', size: 550000 }],
+    width: 800, height: 800, fileSize: 550000, url: img('a19'), thumbnailUrl: img('a19'),
+    versions: [{ version: 1, url: img('a19'), uploadedAt: dateStr(10), uploadedBy: 'u8', changeNote: '初版', size: 550000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(10), updatedAt: dateStr(7), downloads: 0,
     auditTrail: [
       { id: 'at23', action: '审核拒绝', fromStatus: 'in_review', toStatus: 'rejected', userId: 'u5', userName: '陈美妆', timestamp: dateStr(7), note: '品牌调性不符，用色过于鲜艳' },
@@ -362,8 +401,8 @@ export const assets: Asset[] = [
     brandId: 'into_you', type: 'image', category: 'poster', status: 'archived',
     channels: ['shopee'], tags: ['归档', '旧活动'], sku: 'IY-PS-003',
     aiTags: [{ label: '海报', labelEn: 'Poster', confidence: 0.93, category: 'product' }],
-    width: 1080, height: 1080, fileSize: 600000, url: seedImg('iy-archived', 1080, 1080), thumbnailUrl: seedImg('iy-archived', 400, 400),
-    versions: [{ version: 1, url: seedImg('iy-archived', 1080, 1080), uploadedAt: dateStr(90), uploadedBy: 'u8', changeNote: '旧活动海报', size: 600000 }],
+    width: 1080, height: 1080, fileSize: 600000, url: img('a20'), thumbnailUrl: img('a20'),
+    versions: [{ version: 1, url: img('a20'), uploadedAt: dateStr(90), uploadedBy: 'u8', changeNote: '旧活动海报', size: 600000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(90), updatedAt: dateStr(45), downloads: 180,
     auditTrail: [
       { id: 'at24', action: '归档', fromStatus: 'approved', toStatus: 'archived', userId: 'u5', userName: '陈美妆', timestamp: dateStr(45), note: '活动已结束' },
@@ -382,10 +421,10 @@ export const assets: Asset[] = [
       { label: '清透', labelEn: 'Sheer', confidence: 0.93, category: 'style' },
       { label: '少女风', labelEn: 'Girly', confidence: 0.91, category: 'material' },
     ],
-    width: 800, height: 800, fileSize: 510000, url: seedImg('colorkey-air-lip', 800, 800), thumbnailUrl: seedImg('colorkey-air-lip', 400, 400),
+    width: 800, height: 800, fileSize: 510000, url: img('a21'), thumbnailUrl: img('a21'),
     versions: [
-      { version: 1, url: seedImg('colorkey-air-lip-v1', 800, 800), uploadedAt: dateStr(20), uploadedBy: 'u6', changeNote: '初版', size: 480000 },
-      { version: 2, url: seedImg('colorkey-air-lip', 800, 800), uploadedAt: dateStr(12), uploadedBy: 'u6', changeNote: '增加清透滤镜', size: 510000 },
+      { version: 1, url: img('a21'), uploadedAt: dateStr(20), uploadedBy: 'u6', changeNote: '初版', size: 480000 },
+      { version: 2, url: img('a21'), uploadedAt: dateStr(12), uploadedBy: 'u6', changeNote: '增加清透滤镜', size: 510000 },
     ],
     currentVersion: 2, uploadedBy: 'u6', uploadedAt: dateStr(20), updatedAt: dateStr(12), downloads: 98,
     auditTrail: [
@@ -402,8 +441,8 @@ export const assets: Asset[] = [
       { label: '黑色', labelEn: 'Black', confidence: 0.91, category: 'color' },
       { label: '精准', labelEn: 'Precise', confidence: 0.88, category: 'style' },
     ],
-    width: 1080, height: 1920, fileSize: 670000, url: seedImg('colorkey-eyeliner', 1080, 1920), thumbnailUrl: seedImg('colorkey-eyeliner', 400, 711),
-    versions: [{ version: 1, url: seedImg('colorkey-eyeliner', 1080, 1920), uploadedAt: dateStr(8), uploadedBy: 'u6', changeNote: '首版', size: 670000 }],
+    width: 1080, height: 1920, fileSize: 670000, url: img('a22'), thumbnailUrl: img('a22'),
+    versions: [{ version: 1, url: img('a22'), uploadedAt: dateStr(8), uploadedBy: 'u6', changeNote: '首版', size: 670000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(8), updatedAt: dateStr(8), downloads: 62,
     auditTrail: [
       { id: 'at26', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u4', userName: '李审核', timestamp: dateStr(6) },
@@ -419,8 +458,8 @@ export const assets: Asset[] = [
       { label: '多彩', labelEn: 'Colorful', confidence: 0.90, category: 'color' },
       { label: '甜美', labelEn: 'Sweet', confidence: 0.88, category: 'style' },
     ],
-    width: 1200, height: 628, fileSize: 430000, url: seedImg('colorkey-eyeshadow-colorful', 1200, 628), thumbnailUrl: seedImg('colorkey-eyeshadow-colorful', 400, 209),
-    versions: [{ version: 1, url: seedImg('colorkey-eyeshadow-colorful', 1200, 628), uploadedAt: dateStr(14), uploadedBy: 'u6', changeNote: '首版', size: 430000 }],
+    width: 1200, height: 628, fileSize: 430000, url: img('a23'), thumbnailUrl: img('a23'),
+    versions: [{ version: 1, url: img('a23'), uploadedAt: dateStr(14), uploadedBy: 'u6', changeNote: '首版', size: 430000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(14), updatedAt: dateStr(14), downloads: 41,
     auditTrail: [
       { id: 'at27', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u4', userName: '李审核', timestamp: dateStr(12) },
@@ -436,8 +475,8 @@ export const assets: Asset[] = [
       { label: '紫色', labelEn: 'Purple', confidence: 0.92, category: 'color' },
       { label: '活动', labelEn: 'Campaign', confidence: 0.94, category: 'scene' },
     ],
-    width: 1080, height: 1080, fileSize: 780000, url: seedImg('colorkey-anniversary-poster', 1080, 1080), thumbnailUrl: seedImg('colorkey-anniversary-poster', 400, 400),
-    versions: [{ version: 1, url: seedImg('colorkey-anniversary-poster', 1080, 1080), uploadedAt: dateStr(25), uploadedBy: 'u8', changeNote: '周年庆海报', size: 780000 }],
+    width: 1080, height: 1080, fileSize: 780000, url: img('a24'), thumbnailUrl: img('a24'),
+    versions: [{ version: 1, url: img('a24'), uploadedAt: dateStr(25), uploadedBy: 'u8', changeNote: '周年庆海报', size: 780000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(25), updatedAt: dateStr(25), downloads: 87,
     auditTrail: [
       { id: 'at28', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u4', userName: '李审核', timestamp: dateStr(23) },
@@ -453,8 +492,8 @@ export const assets: Asset[] = [
       { label: '透明', labelEn: 'Clear', confidence: 0.91, category: 'color' },
       { label: '清爽', labelEn: 'Refreshing', confidence: 0.87, category: 'style' },
     ],
-    width: 800, height: 800, fileSize: 420000, url: seedImg('colorkey-setting-spray', 800, 800), thumbnailUrl: seedImg('colorkey-setting-spray', 400, 400),
-    versions: [{ version: 1, url: seedImg('colorkey-setting-spray', 800, 800), uploadedAt: dateStr(3), uploadedBy: 'u6', changeNote: '新品首版', size: 420000 }],
+    width: 800, height: 800, fileSize: 420000, url: img('a25'), thumbnailUrl: img('a25'),
+    versions: [{ version: 1, url: img('a25'), uploadedAt: dateStr(3), uploadedBy: 'u6', changeNote: '新品首版', size: 420000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(3), updatedAt: dateStr(3), downloads: 5,
     auditTrail: [
       { id: 'at29', action: '提交审核', fromStatus: 'draft', toStatus: 'in_review', userId: 'u6', userName: '赵运营', timestamp: dateStr(2) },
@@ -469,7 +508,7 @@ export const assets: Asset[] = [
       { label: '品牌视频', labelEn: 'Brand Video', confidence: 0.98, category: 'product' },
       { label: '潮流', labelEn: 'Trendy', confidence: 0.90, category: 'style' },
     ],
-    width: 1920, height: 1080, fileSize: 85000000, url: '#', thumbnailUrl: seedImg('colorkey-brand-video', 400, 225),
+    width: 1920, height: 1080, fileSize: 85000000, url: '#', thumbnailUrl: img('a26'),
     versions: [{ version: 1, url: '#', uploadedAt: dateStr(30), uploadedBy: 'u6', changeNote: '品牌宣传片', size: 85000000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(30), updatedAt: dateStr(30), downloads: 43,
     auditTrail: [
@@ -482,8 +521,8 @@ export const assets: Asset[] = [
     brandId: 'colorkey', type: 'image', category: 'foundation', status: 'draft',
     channels: ['shopee'], tags: ['遮瑕', '草稿'], sku: 'CK-CC-001',
     aiTags: [{ label: '遮瑕', labelEn: 'Concealer', confidence: 0.93, category: 'product' }],
-    width: 800, height: 800, fileSize: 310000, url: seedImg('colorkey-concealer', 800, 800), thumbnailUrl: seedImg('colorkey-concealer', 400, 400),
-    versions: [{ version: 1, url: seedImg('colorkey-concealer', 800, 800), uploadedAt: dateStr(0), uploadedBy: 'u6', changeNote: '草稿', size: 310000 }],
+    width: 800, height: 800, fileSize: 310000, url: img('a27'), thumbnailUrl: img('a27'),
+    versions: [{ version: 1, url: img('a27'), uploadedAt: dateStr(0), uploadedBy: 'u6', changeNote: '草稿', size: 310000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(0), updatedAt: dateStr(0), downloads: 0,
     auditTrail: [
       { id: 'at31', action: '创建素材', toStatus: 'draft', userId: 'u6', userName: '赵运营', timestamp: dateStr(0) },
@@ -495,8 +534,8 @@ export const assets: Asset[] = [
     brandId: 'colorkey', type: 'image', category: 'poster', status: 'expired',
     channels: ['shopee', 'lazada'], tags: ['活动', '过期'], sku: 'CK-PS-002',
     aiTags: [{ label: '海报', labelEn: 'Poster', confidence: 0.95, category: 'product' }],
-    width: 800, height: 800, fileSize: 520000, url: seedImg('ck-expired', 800, 800), thumbnailUrl: seedImg('ck-expired', 400, 400),
-    versions: [{ version: 1, url: seedImg('ck-expired', 800, 800), uploadedAt: dateStr(100), uploadedBy: 'u8', changeNote: '活动图', size: 520000 }],
+    width: 800, height: 800, fileSize: 520000, url: img('a28'), thumbnailUrl: img('a28'),
+    versions: [{ version: 1, url: img('a28'), uploadedAt: dateStr(100), uploadedBy: 'u8', changeNote: '活动图', size: 520000 }],
     currentVersion: 1, uploadedBy: 'u8', uploadedAt: dateStr(100), updatedAt: dateStr(60), expiresAt: dateStr(10), downloads: 120,
     auditTrail: [
       { id: 'at32', action: '素材过期', fromStatus: 'approved', toStatus: 'expired', userId: 'u1', userName: '系统', timestamp: dateStr(10) },
@@ -508,8 +547,8 @@ export const assets: Asset[] = [
     brandId: 'colorkey', type: 'image', category: 'blush', status: 'archived',
     channels: ['shopee'], tags: ['归档', '旧版'], sku: 'CK-BL-002',
     aiTags: [{ label: '腮红', labelEn: 'Blush', confidence: 0.94, category: 'product' }],
-    width: 800, height: 800, fileSize: 460000, url: seedImg('colorkey-blush-archived', 800, 800), thumbnailUrl: seedImg('colorkey-blush-archived', 400, 400),
-    versions: [{ version: 1, url: seedImg('colorkey-blush-archived', 800, 800), uploadedAt: dateStr(80), uploadedBy: 'u6', changeNote: '旧版', size: 460000 }],
+    width: 800, height: 800, fileSize: 460000, url: img('a29'), thumbnailUrl: img('a29'),
+    versions: [{ version: 1, url: img('a29'), uploadedAt: dateStr(80), uploadedBy: 'u6', changeNote: '旧版', size: 460000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(80), updatedAt: dateStr(50), downloads: 95,
     auditTrail: [
       { id: 'at33', action: '归档', fromStatus: 'approved', toStatus: 'archived', userId: 'u1', userName: '林小美', timestamp: dateStr(50), note: '产品下架' },
@@ -525,8 +564,8 @@ export const assets: Asset[] = [
       { label: '白色', labelEn: 'White', confidence: 0.89, category: 'color' },
       { label: '简约', labelEn: 'Minimalist', confidence: 0.85, category: 'style' },
     ],
-    width: 1080, height: 1080, fileSize: 480000, url: seedImg('colorkey-skincare-set', 1080, 1080), thumbnailUrl: seedImg('colorkey-skincare-set', 400, 400),
-    versions: [{ version: 1, url: seedImg('colorkey-skincare-set', 1080, 1080), uploadedAt: dateStr(0), uploadedBy: 'u6', changeNote: '新品草稿', size: 480000 }],
+    width: 1080, height: 1080, fileSize: 480000, url: img('a30'), thumbnailUrl: img('a30'),
+    versions: [{ version: 1, url: img('a30'), uploadedAt: dateStr(0), uploadedBy: 'u6', changeNote: '新品草稿', size: 480000 }],
     currentVersion: 1, uploadedBy: 'u6', uploadedAt: dateStr(0), updatedAt: dateStr(0), downloads: 0,
     auditTrail: [
       { id: 'at34', action: '创建素材', toStatus: 'draft', userId: 'u6', userName: '赵运营', timestamp: dateStr(0) },
@@ -542,8 +581,8 @@ export const assets: Asset[] = [
       { label: '散粉', labelEn: 'Loose Powder', confidence: 0.96, category: 'product' },
       { label: '裸色', labelEn: 'Nude', confidence: 0.89, category: 'color' },
     ],
-    width: 800, height: 800, fileSize: 400000, url: seedImg('judydoll-loose-powder', 800, 800), thumbnailUrl: seedImg('judydoll-loose-powder', 400, 400),
-    versions: [{ version: 1, url: seedImg('judydoll-loose-powder', 800, 800), uploadedAt: dateStr(16), uploadedBy: 'u3', changeNote: '首版', size: 400000 }],
+    width: 800, height: 800, fileSize: 400000, url: img('a31'), thumbnailUrl: img('a31'),
+    versions: [{ version: 1, url: img('a31'), uploadedAt: dateStr(16), uploadedBy: 'u3', changeNote: '首版', size: 400000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(16), updatedAt: dateStr(16), downloads: 33,
     auditTrail: [
       { id: 'at35', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u2', userName: '王品宣', timestamp: dateStr(14) },
@@ -558,8 +597,8 @@ export const assets: Asset[] = [
       { label: '高光修容', labelEn: 'Highlight & Contour', confidence: 0.95, category: 'product' },
       { label: '香槟色', labelEn: 'Champagne', confidence: 0.90, category: 'color' },
     ],
-    width: 1080, height: 1920, fileSize: 580000, url: seedImg('judydoll-highlight-contour', 1080, 1920), thumbnailUrl: seedImg('judydoll-highlight-contour', 400, 711),
-    versions: [{ version: 1, url: seedImg('judydoll-highlight-contour', 1080, 1920), uploadedAt: dateStr(7), uploadedBy: 'u3', changeNote: '首版', size: 580000 }],
+    width: 1080, height: 1920, fileSize: 580000, url: img('a32'), thumbnailUrl: img('a32'),
+    versions: [{ version: 1, url: img('a32'), uploadedAt: dateStr(7), uploadedBy: 'u3', changeNote: '首版', size: 580000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(7), updatedAt: dateStr(7), downloads: 45,
     auditTrail: [
       { id: 'at36', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u2', userName: '王品宣', timestamp: dateStr(5) },
@@ -575,8 +614,8 @@ export const assets: Asset[] = [
       { label: '渐变色', labelEn: 'Gradient', confidence: 0.92, category: 'color' },
       { label: '多彩', labelEn: 'Colorful', confidence: 0.90, category: 'material' },
     ],
-    width: 800, height: 800, fileSize: 500000, url: seedImg('judydoll-color-eyeshadow', 800, 800), thumbnailUrl: seedImg('judydoll-color-eyeshadow', 400, 400),
-    versions: [{ version: 1, url: seedImg('judydoll-color-eyeshadow', 800, 800), uploadedAt: dateStr(2), uploadedBy: 'u3', changeNote: '新品', size: 500000 }],
+    width: 800, height: 800, fileSize: 500000, url: img('a33'), thumbnailUrl: img('a33'),
+    versions: [{ version: 1, url: img('a33'), uploadedAt: dateStr(2), uploadedBy: 'u3', changeNote: '新品', size: 500000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(2), updatedAt: dateStr(2), downloads: 2,
     auditTrail: [
       { id: 'at37', action: '提交审核', fromStatus: 'draft', toStatus: 'in_review', userId: 'u3', userName: '张设计', timestamp: dateStr(1) },
@@ -592,8 +631,8 @@ export const assets: Asset[] = [
       { label: '绿色', labelEn: 'Green', confidence: 0.88, category: 'color' },
       { label: '自然', labelEn: 'Natural', confidence: 0.91, category: 'style' },
     ],
-    width: 1920, height: 1080, fileSize: 750000, url: seedImg('judydoll-cleansing-balm', 1920, 1080), thumbnailUrl: seedImg('judydoll-cleansing-balm', 400, 225),
-    versions: [{ version: 1, url: seedImg('judydoll-cleansing-balm', 1920, 1080), uploadedAt: dateStr(9), uploadedBy: 'u3', changeNote: '首版', size: 750000 }],
+    width: 1920, height: 1080, fileSize: 750000, url: img('a34'), thumbnailUrl: img('a34'),
+    versions: [{ version: 1, url: img('a34'), uploadedAt: dateStr(9), uploadedBy: 'u3', changeNote: '首版', size: 750000 }],
     currentVersion: 1, uploadedBy: 'u3', uploadedAt: dateStr(9), updatedAt: dateStr(9), downloads: 28,
     auditTrail: [
       { id: 'at38', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u2', userName: '王品宣', timestamp: dateStr(7) },
@@ -608,8 +647,8 @@ export const assets: Asset[] = [
       { label: '色卡', labelEn: 'Color Chart', confidence: 0.97, category: 'product' },
       { label: '多色', labelEn: 'Multicolor', confidence: 0.95, category: 'color' },
     ],
-    width: 1200, height: 1200, fileSize: 920000, url: seedImg('judydoll-lip-color-chart', 1200, 1200), thumbnailUrl: seedImg('judydoll-lip-color-chart', 400, 400),
-    versions: [{ version: 1, url: seedImg('judydoll-lip-color-chart', 1200, 1200), uploadedAt: dateStr(45), uploadedBy: 'u2', changeNote: '完整色卡', size: 920000 }],
+    width: 1200, height: 1200, fileSize: 920000, url: img('a35'), thumbnailUrl: img('a35'),
+    versions: [{ version: 1, url: img('a35'), uploadedAt: dateStr(45), uploadedBy: 'u2', changeNote: '完整色卡', size: 920000 }],
     currentVersion: 1, uploadedBy: 'u2', uploadedAt: dateStr(45), updatedAt: dateStr(45), downloads: 312,
     auditTrail: [
       { id: 'at39', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u1', userName: '林小美', timestamp: dateStr(43) },

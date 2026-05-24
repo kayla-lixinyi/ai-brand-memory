@@ -98,7 +98,7 @@ export function SearchBar({
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder={searchMode === 'fulltext' ? '搜索素材名称、标签、SKU...' : '输入自然语言描述，如"红色口红"、"dreamy girl style"...'}
+            placeholder={searchMode === 'fulltext' ? '搜索素材名称、标签、SKU...' : '输入自然语言描述，如"红色口红"、"夏日清新风格"...'}
             className="pl-10 pr-10 h-10 rounded-full border-border/60 bg-background/80 backdrop-blur-sm shadow-sm focus:shadow-md transition-shadow"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -151,7 +151,7 @@ export function SearchBar({
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://picsum.photos/seed/search-upload/200/200"
+                  src="/images/a1-judydoll-velvet-lip.png"
                   alt="上传预览"
                   className="w-14 h-14 rounded-2xl mx-auto mb-3 object-cover ring-2 ring-primary/30"
                 />
@@ -165,7 +165,7 @@ export function SearchBar({
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://picsum.photos/seed/search-upload/200/200"
+                  src="/images/a1-judydoll-velvet-lip.png"
                   alt="上传预览"
                   className="w-14 h-14 rounded-2xl mx-auto mb-3 object-cover ring-2 ring-primary/20 opacity-60"
                 />
@@ -188,7 +188,7 @@ export function SearchBar({
             <div className="flex items-center gap-2.5 px-4 py-2.5 glass rounded-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://picsum.photos/seed/search-upload/200/200"
+                src="/images/a1-judydoll-velvet-lip.png"
                 alt="参考图"
                 className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20 shrink-0"
               />
