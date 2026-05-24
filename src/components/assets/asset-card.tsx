@@ -23,11 +23,11 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
   if (viewMode === 'list') {
     return (
       <Link href={`/assets/${asset.id}`}>
-        <Card className="flex items-center gap-4 p-3.5 card-lift cursor-pointer group border-border/40">
+        <div className="flex items-center gap-4 p-3 rounded-2xl bg-card ring-1 ring-foreground/5 shadow-sm card-lift cursor-pointer group">
           {/* Thumbnail */}
-          <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-muted shrink-0 ring-1 ring-border/30">
+          <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0 ring-1 ring-border/30">
             <img src={asset.thumbnailUrl} alt={asset.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
-            <div className="absolute top-1 left-1">
+            <div className="absolute top-0.5 left-0.5">
               <TypeIcon className="w-3 h-3 text-white drop-shadow-md" />
             </div>
           </div>
@@ -40,12 +40,12 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
                 {statusCfg.label}
               </Badge>
               <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[asset.category]}</span>
-              {asset.width > 0 && <span className="text-xs text-muted-foreground">{asset.width}x{asset.height}</span>}
+              {asset.width > 0 && <span className="text-xs text-muted-foreground">{asset.width}×{asset.height}</span>}
             </div>
           </div>
 
           {/* Channels */}
-          <div className="flex gap-1">
+          <div className="hidden md:flex gap-1 shrink-0">
             {asset.channels.slice(0, 3).map((ch) => (
               <Badge key={ch} variant="outline" className="text-[10px] px-2 py-0 rounded-full border-border/60">
                 {CHANNEL_CONFIG[ch].label}
@@ -60,7 +60,7 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
               <Download className="w-3 h-3" /> {asset.downloads}
             </p>
           </div>
-        </Card>
+        </div>
       </Link>
     );
   }

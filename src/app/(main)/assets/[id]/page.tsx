@@ -38,6 +38,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
   const statusCfg = STATUS_CONFIG[asset.status];
   const viewingVersion = selectedVersion ?? asset.currentVersion;
   const versionData = asset.versions.find((v) => v.version === viewingVersion);
+  const resolveUrl = (url?: string) => (url && url !== '#' ? url : asset.thumbnailUrl);
   const relatedAssets = asset.relatedAssetIds
     .map((rid) => allAssets.find((a) => a.id === rid))
     .filter(Boolean) as Asset[];
@@ -61,7 +62,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
             <div className="relative bg-muted/50">
               {!showCompare ? (
                 <img
-                  src={versionData?.url || asset.url}
+                  src={resolveUrl(versionData?.url || asset.url)}
                   alt={asset.name}
                   className="w-full max-h-[500px] object-contain"
                 />
@@ -69,7 +70,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
                 <div className="grid grid-cols-2 gap-1">
                   <div className="relative">
                     <img
-                      src={asset.versions[asset.versions.length - 2]?.url || asset.url}
+                      src={resolveUrl(asset.versions[asset.versions.length - 2]?.url || asset.url)}
                       alt="Previous"
                       className="w-full max-h-[400px] object-contain"
                     />
@@ -77,7 +78,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
                   </div>
                   <div className="relative">
                     <img
-                      src={asset.versions[asset.versions.length - 1]?.url || asset.url}
+                      src={resolveUrl(asset.versions[asset.versions.length - 1]?.url || asset.url)}
                       alt="Current"
                       className="w-full max-h-[400px] object-contain"
                     />
