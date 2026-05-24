@@ -9,13 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { Search, Sparkles, ImageIcon, Loader2, X, Upload } from 'lucide-react';
-
-const MODES: { mode: SearchMode; label: string; icon: React.ElementType; desc: string }[] = [
-  { mode: 'fulltext', label: '全文搜索', icon: Search, desc: '按名称、标签、SKU 搜索' },
-  { mode: 'semantic', label: 'AI 语义搜索', icon: Sparkles, desc: '自然语言描述，AI 理解意图' },
-  { mode: 'image', label: '以图搜图', icon: ImageIcon, desc: '上传图片查找相似素材' },
-];
+import { Search, Sparkles, ImageIcon, Loader2, X, Upload, Wand2, ScanEye } from 'lucide-react';
 
 export function SearchBar({
   onSemanticResults,
@@ -26,6 +20,14 @@ export function SearchBar({
   const { results, loading, matchReason, semanticSearch } = useSearch();
   const [showImageDrop, setShowImageDrop] = useState(false);
   const [imageSearchState, setImageSearchState] = useState<'idle' | 'processing' | 'done'>('idle');
+
+  const switchMode = useCallback((mode: SearchMode) => {
+    if (mode === searchMode) return;
+    setSearchMode(mode);
+    setSearchQuery('');
+    setImageSearchState('idle');
+    if (onSemanticResults) onSemanticResults([], '');
+  }, [searchMode, setSearchMode, setSearchQuery, onSemanticResults]);
 
   const triggerImageSearch = useCallback(() => {
     if (imageSearchState === 'processing') return;
@@ -66,158 +68,185 @@ export function SearchBar({
   );
 
   return (
-    <div className="space-y-2.5">
-      {/* Mode tabs — pill radio group */}
-      <div className="flex items-center gap-1.5 p-1 bg-muted/50 rounded-full w-fit">
-        {MODES.map(({ mode, label, icon: Icon }) => (
-          <button
-            key={mode}
-            className={cn(
-              'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all',
-              searchMode === mode
-                ? 'bg-white dark:bg-card text-primary shadow-sm'
-                : 'text-muted-foreground hover:text-foreground'
+    <div className="space-y-3">
+      {/* Unified search bar with integrated mode switcher */}
+      <div className="flex gap-2 items-stretch">
+        {/* Main search input area */}
+        <div className="flex-1 relative">
+          {/* Left icon changes with mode */}
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10">
+            {searchMode === 'semantic' ? (
+              <Sparkles className="w-4 h-4 text-primary" />
+            ) : searchMode === 'image' ? (
+              <ScanEye className="w-4 h-4 text-primary" />
+            ) : (
+              <Search className="w-4 h-4 text-muted-foreground" />
             )}
-            onClick={() => {
-              setSearchMode(mode);
-              if (mode !== searchMode) {
-                setSearchQuery('');
-                setImageSearchState('idle');
-                if (onSemanticResults) onSemanticResults([], '');
-              }
-            }}
-          >
-            <Icon className="w-3.5 h-3.5" />
-            {label}
-          </button>
-        ))}
-      </div>
+          </div>
 
-      {/* Search input */}
-      {searchMode !== 'image' ? (
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder={searchMode === 'fulltext' ? '搜索素材名称、标签、SKU...' : '输入自然语言描述，如"红色口红"、"夏日清新风格"...'}
-            className="pl-10 pr-10 h-10 rounded-full border-border/60 bg-background/80 backdrop-blur-sm shadow-sm focus:shadow-md transition-shadow"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          {searchQuery && (
+          {searchMode !== 'image' ? (
+            <input
+              placeholder={
+                searchMode === 'fulltext'
+                  ? '搜索素材名称、标签、SKU...'
+                  : '用自然语言搜索，如 "红色系口红主图"、"夏日清新风格海报"...'
+              }
+              className={cn(
+                'w-full h-11 pl-10 pr-10 text-sm bg-background border rounded-xl outline-none transition-all',
+                'placeholder:text-muted-foreground/50',
+                searchMode === 'semantic'
+                  ? 'border-primary/30 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 shadow-sm shadow-primary/5'
+                  : 'border-border/60 focus:border-border focus:ring-1 focus:ring-border/30'
+              )}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+          ) : (
+            /* Image search: inline drop zone */
+            <div
+              className={cn(
+                'flex items-center gap-3 h-11 pl-10 pr-4 border rounded-xl transition-all',
+                imageSearchState === 'processing'
+                  ? 'border-primary/40 bg-primary/5'
+                  : imageSearchState === 'done'
+                    ? 'border-primary/30 bg-primary/5'
+                    : showImageDrop
+                      ? 'border-primary/40 bg-primary/5'
+                      : 'border-primary/30 hover:border-primary/40 cursor-pointer shadow-sm shadow-primary/5'
+              )}
+              onDragOver={(e) => { e.preventDefault(); setShowImageDrop(true); }}
+              onDragLeave={() => setShowImageDrop(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setShowImageDrop(false);
+                triggerImageSearch();
+              }}
+              onClick={() => {
+                if (imageSearchState !== 'processing') triggerImageSearch();
+              }}
+            >
+              {imageSearchState === 'processing' ? (
+                <div className="flex items-center gap-2 text-sm">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                  <span className="text-primary font-medium">AI 视觉分析中...</span>
+                </div>
+              ) : imageSearchState === 'done' ? (
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/a1-judydoll-velvet-lip.png"
+                    alt="参考图"
+                    className="w-7 h-7 rounded-lg object-cover ring-1 ring-primary/20 shrink-0"
+                  />
+                  <span className="text-xs text-primary font-medium">找到 4 个相似素材</span>
+                  <Badge variant="secondary" className="text-[10px] ml-auto shrink-0 rounded-full px-2 py-0 bg-primary/10 text-primary border-0">
+                    92%
+                  </Badge>
+                  <button
+                    className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setImageSearchState('idle');
+                      if (onSemanticResults) onSemanticResults([], '');
+                    }}
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <span className="text-sm text-muted-foreground/60">拖拽或点击上传图片，AI 查找视觉相似素材</span>
+              )}
+            </div>
+          )}
+
+          {/* Clear button */}
+          {searchMode !== 'image' && searchQuery && (
             <button
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => {
                 setSearchQuery('');
                 if (onSemanticResults) onSemanticResults([], '');
               }}
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
-          {loading && (
-            <div className="absolute right-10 top-1/2 -translate-y-1/2">
-              <Loader2 className="w-4 h-4 animate-spin text-primary" />
+          {searchMode !== 'image' && loading && (
+            <div className="absolute right-9 top-1/2 -translate-y-1/2">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
             </div>
           )}
         </div>
-      ) : (
-        /* Image search drop zone */
-        <div className="space-y-2.5">
-          <div
-            className={cn(
-              'border-2 border-dashed rounded-2xl p-8 text-center transition-all',
-              imageSearchState === 'processing' ? 'border-primary bg-primary/5' :
-              showImageDrop ? 'border-primary bg-primary/5 scale-[1.01]' : 'border-border/60 hover:border-primary/50',
-              imageSearchState !== 'processing' && 'cursor-pointer'
-            )}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setShowImageDrop(true);
-            }}
-            onDragLeave={() => setShowImageDrop(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              setShowImageDrop(false);
-              triggerImageSearch();
-            }}
-            onClick={() => {
-              if (imageSearchState !== 'processing') {
-                triggerImageSearch();
-              }
-            }}
-          >
-            {imageSearchState === 'processing' ? (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/a1-judydoll-velvet-lip.png"
-                  alt="上传预览"
-                  className="w-14 h-14 rounded-2xl mx-auto mb-3 object-cover ring-2 ring-primary/30"
-                />
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                  <p className="text-sm font-medium text-primary">AI 分析中...</p>
-                </div>
-                <p className="text-xs text-muted-foreground">正在提取视觉特征并匹配相似素材</p>
-              </>
-            ) : imageSearchState === 'done' ? (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/a1-judydoll-velvet-lip.png"
-                  alt="上传预览"
-                  className="w-14 h-14 rounded-2xl mx-auto mb-3 object-cover ring-2 ring-primary/20 opacity-60"
-                />
-                <p className="text-sm font-medium text-muted-foreground">分析完成 — 点击重新上传</p>
-                <p className="text-xs text-muted-foreground mt-1">或拖拽新图片替换</p>
-              </>
-            ) : (
-              <>
-                <div className="w-14 h-14 rounded-2xl bg-muted mx-auto mb-3 flex items-center justify-center">
-                  <Upload className="w-6 h-6 text-muted-foreground" />
-                </div>
-                <p className="text-sm font-medium">拖拽图片到此处，或点击上传</p>
-                <p className="text-xs text-muted-foreground mt-1">AI 将查找视觉相似的素材</p>
-              </>
-            )}
-          </div>
 
-          {/* Image search result summary */}
-          {imageSearchState === 'done' && (
-            <div className="flex items-center gap-2.5 px-4 py-2.5 glass rounded-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/a1-judydoll-velvet-lip.png"
-                alt="参考图"
-                className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20 shrink-0"
-              />
-              <div className="flex flex-col min-w-0">
-                <p className="text-xs text-primary font-medium">找到 4 个视觉相似素材</p>
-                <p className="text-[10px] text-muted-foreground">最高相似度 92%</p>
-              </div>
-              <Badge variant="secondary" className="text-[10px] ml-auto shrink-0 rounded-full px-2.5 bg-primary/10 text-primary border-0">
-                92% 匹配
-              </Badge>
-              <button
-                className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setImageSearchState('idle');
-                  if (onSemanticResults) onSemanticResults([], '');
-                }}
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          )}
+        {/* AI feature quick-switch buttons — always visible, visually prominent */}
+        <div className="flex gap-1.5 shrink-0">
+          <button
+            onClick={() => switchMode('fulltext')}
+            className={cn(
+              'flex items-center gap-1.5 px-3 h-11 rounded-xl text-xs font-medium transition-all border',
+              searchMode === 'fulltext'
+                ? 'bg-foreground/5 border-border/60 text-foreground'
+                : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/50'
+            )}
+          >
+            <Search className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">搜索</span>
+          </button>
+
+          <button
+            onClick={() => switchMode('semantic')}
+            className={cn(
+              'flex items-center gap-1.5 px-3 h-11 rounded-xl text-xs font-medium transition-all border',
+              searchMode === 'semantic'
+                ? 'bg-primary/8 border-primary/25 text-primary shadow-sm shadow-primary/10'
+                : 'border-transparent text-muted-foreground hover:text-primary/80 hover:bg-primary/5'
+            )}
+          >
+            <Sparkles className={cn('w-3.5 h-3.5', searchMode === 'semantic' && 'animate-pulse-glow')} />
+            <span className="hidden sm:inline">AI 搜索</span>
+          </button>
+
+          <button
+            onClick={() => switchMode('image')}
+            className={cn(
+              'flex items-center gap-1.5 px-3 h-11 rounded-xl text-xs font-medium transition-all border',
+              searchMode === 'image'
+                ? 'bg-primary/8 border-primary/25 text-primary shadow-sm shadow-primary/10'
+                : 'border-transparent text-muted-foreground hover:text-primary/80 hover:bg-primary/5'
+            )}
+          >
+            <ScanEye className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">以图搜图</span>
+          </button>
+        </div>
+      </div>
+
+      {/* AI feature hint — shows when NOT in AI mode, to promote the features */}
+      {searchMode === 'fulltext' && !searchQuery && (
+        <div className="flex items-center gap-4 px-1">
+          <button
+            onClick={() => switchMode('semantic')}
+            className="flex items-center gap-1.5 text-[11px] text-muted-foreground/70 hover:text-primary transition-colors group"
+          >
+            <Wand2 className="w-3 h-3 group-hover:text-primary transition-colors" />
+            试试 AI 语义搜索 — 用自然语言描述你想要的素材
+          </button>
+          <span className="text-border">|</span>
+          <button
+            onClick={() => switchMode('image')}
+            className="flex items-center gap-1.5 text-[11px] text-muted-foreground/70 hover:text-primary transition-colors group"
+          >
+            <ScanEye className="w-3 h-3 group-hover:text-primary transition-colors" />
+            以图搜图 — 上传图片查找相似素材
+          </button>
         </div>
       )}
 
-      {/* Semantic search results hint */}
+      {/* Semantic search results bar */}
       {searchMode === 'semantic' && matchReason && !loading && (
-        <div className="flex items-center gap-2.5 px-4 py-2.5 glass rounded-full">
-          <Sparkles className="w-4 h-4 text-primary shrink-0" />
+        <div className="flex items-center gap-2.5 px-4 py-2 glass rounded-xl">
+          <Sparkles className="w-3.5 h-3.5 text-primary shrink-0" />
           <p className="text-xs text-primary font-medium">{matchReason}</p>
           <Badge variant="secondary" className="text-[10px] ml-auto shrink-0 rounded-full px-2.5 bg-primary/10 text-primary border-0">
             {results.length} 个结果
