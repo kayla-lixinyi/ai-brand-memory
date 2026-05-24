@@ -21,8 +21,8 @@ import { LayoutGrid, List, SlidersHorizontal, PackageOpen } from 'lucide-react';
 
 function AssetGridSkeleton() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {Array.from({ length: 10 }).map((_, i) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="rounded-2xl border border-border/40 overflow-hidden">
           <Skeleton className="aspect-square w-full" />
           <div className="p-3.5 space-y-2">
@@ -145,7 +145,7 @@ export default function AssetsPage() {
           ) : displayAssets.length === 0 ? (
             <EmptyState />
           ) : viewMode === 'grid' ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {displayAssets.map((asset, i) => (
                 <div key={asset.id} className="animate-float-in" style={{ animationDelay: `${i * 30}ms` }}>
                   <AssetCard asset={asset} viewMode="grid" />

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Topbar } from '@/components/layout/topbar';
+import { SettingsDialog } from '@/components/layout/settings-dialog';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,6 +15,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
       </div>
+      <SettingsDialog />
     </div>
   );
 }
