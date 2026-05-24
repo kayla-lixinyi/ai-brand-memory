@@ -81,13 +81,15 @@ export function Sidebar() {
           {/* Settings gear */}
           {sidebarCollapsed ? (
             <Tooltip>
-              <TooltipTrigger render={<span />}>
-                <button
-                  onClick={toggleSettings}
-                  className="flex items-center justify-center w-full py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors duration-150"
-                >
-                  <Settings className="w-[18px] h-[18px]" />
-                </button>
+              <TooltipTrigger
+                render={
+                  <button
+                    onClick={toggleSettings}
+                    className="flex items-center justify-center w-full py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors duration-150"
+                  />
+                }
+              >
+                <Settings className="w-[18px] h-[18px]" />
               </TooltipTrigger>
               <TooltipContent side="right">设置</TooltipContent>
             </Tooltip>
@@ -104,13 +106,15 @@ export function Sidebar() {
           {/* Collapse toggle */}
           {sidebarCollapsed ? (
             <Tooltip>
-              <TooltipTrigger render={<span />}>
-                <button
-                  onClick={toggleSidebar}
-                  className="flex items-center justify-center w-full py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors duration-150"
-                >
-                  <PanelLeft className="w-[18px] h-[18px]" />
-                </button>
+              <TooltipTrigger
+                render={
+                  <button
+                    onClick={toggleSidebar}
+                    className="flex items-center justify-center w-full py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors duration-150"
+                  />
+                }
+              >
+                <PanelLeft className="w-[18px] h-[18px]" />
               </TooltipTrigger>
               <TooltipContent side="right">展开侧边栏</TooltipContent>
             </Tooltip>
