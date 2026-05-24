@@ -25,25 +25,25 @@ export function Sidebar() {
     <TooltipProvider delay={0}>
       <aside
         className={cn(
-          'flex flex-col border-r border-border bg-sidebar transition-all duration-300 relative h-full',
+          'flex flex-col bg-gradient-sidebar transition-all duration-300 relative h-full',
           sidebarCollapsed ? 'w-16' : 'w-60'
         )}
       >
         {/* Logo */}
-        <div className={cn('flex items-center gap-2.5 px-4 h-14 border-b border-sidebar-border', sidebarCollapsed && 'justify-center px-0')}>
-          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <Sparkles className="w-4 h-4" />
+        <div className={cn('flex items-center gap-3 px-4 h-16', sidebarCollapsed && 'justify-center px-0')}>
+          <div className="relative flex items-center justify-center w-9 h-9 rounded-2xl bg-gradient-coral shadow-lg shadow-primary/20">
+            <Sparkles className="w-4.5 h-4.5 text-white" />
           </div>
           {!sidebarCollapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-sidebar-foreground tracking-tight">AI Brand Memory</span>
-              <span className="text-[10px] text-sidebar-foreground/50">DAM Platform</span>
+              <span className="text-sm font-bold text-white tracking-tight">AI Brand Memory</span>
+              <span className="text-[10px] text-white/40 font-medium">DAM Platform</span>
             </div>
           )}
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 py-3 px-2 space-y-1">
+        <nav className="flex-1 py-4 px-2.5 space-y-1">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             const Icon = item.icon;
@@ -52,15 +52,18 @@ export function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                  'flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-sidebar-accent text-sidebar-primary'
-                    : 'text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',
+                    ? 'bg-white/15 text-white shadow-sm shadow-black/10 backdrop-blur-sm'
+                    : 'text-white/60 hover:bg-white/8 hover:text-white/90',
                   sidebarCollapsed && 'justify-center px-0'
                 )}
               >
-                <Icon className="w-5 h-5 shrink-0" />
+                <Icon className={cn('w-5 h-5 shrink-0', isActive && 'drop-shadow-sm')} />
                 {!sidebarCollapsed && <span>{item.label}</span>}
+                {isActive && !sidebarCollapsed && (
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-gradient-coral" />
+                )}
               </Link>
             );
 
@@ -81,9 +84,9 @@ export function Sidebar() {
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
-          className="absolute -right-3 top-20 z-10 h-6 w-6 rounded-full border border-border bg-background shadow-sm"
+          className="absolute -right-3.5 top-20 z-10 h-7 w-7 rounded-full border-2 border-border bg-background shadow-md hover:shadow-lg hover:scale-110 transition-all"
         >
-          {sidebarCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
+          {sidebarCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
         </Button>
       </aside>
     </TooltipProvider>

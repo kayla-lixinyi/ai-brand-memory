@@ -17,17 +17,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { LayoutGrid, List, SlidersHorizontal, PackageOpen } from 'lucide-react';
+import { LayoutGrid, List, SlidersHorizontal, PackageOpen, Images } from 'lucide-react';
 
 function AssetGridSkeleton() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {Array.from({ length: 10 }).map((_, i) => (
-        <div key={i} className="rounded-lg border border-border overflow-hidden">
+        <div key={i} className="rounded-2xl border border-border/40 overflow-hidden">
           <Skeleton className="aspect-square w-full" />
-          <div className="p-3 space-y-2">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
+          <div className="p-3.5 space-y-2">
+            <Skeleton className="h-4 w-3/4 rounded-full" />
+            <Skeleton className="h-3 w-1/2 rounded-full" />
             <div className="flex gap-1">
               <Skeleton className="h-5 w-12 rounded-full" />
               <Skeleton className="h-5 w-12 rounded-full" />
@@ -42,9 +42,11 @@ function AssetGridSkeleton() {
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
-      <PackageOpen className="w-12 h-12 mb-3 opacity-40" />
-      <p className="text-lg font-medium">暂无素材</p>
-      <p className="text-sm mt-1">尝试调整筛选条件或切换品牌</p>
+      <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-4">
+        <PackageOpen className="w-10 h-10 opacity-40" />
+      </div>
+      <p className="text-lg font-semibold">暂无素材</p>
+      <p className="text-sm mt-1 text-muted-foreground/70">尝试调整筛选条件或切换品牌</p>
     </div>
   );
 }
@@ -58,7 +60,6 @@ export default function AssetsPage() {
 
   React.useEffect(() => setHydrated(true), []);
 
-  // Semantic / image search overrides
   const [semanticIds, setSemanticIds] = useState<string[]>([]);
   const [semanticReason, setSemanticReason] = useState('');
 
@@ -67,7 +68,6 @@ export default function AssetsPage() {
     setSemanticReason(reason);
   }, []);
 
-  // Determine final display list
   const displayAssets =
     (searchMode === 'semantic' || searchMode === 'image') && semanticIds.length > 0
       ? semanticIds
@@ -85,18 +85,18 @@ export default function AssetsPage() {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Toolbar */}
-        <div className="p-4 border-b border-border space-y-3">
+        <div className="p-5 border-b border-border/40 space-y-3 bg-gradient-warm">
           <SearchBar onSemanticResults={handleSemanticResults} />
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               {!showFilter && (
-                <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs" onClick={() => setShowFilter(true)}>
+                <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs rounded-full px-3.5 border-border/60" onClick={() => setShowFilter(true)}>
                   <SlidersHorizontal className="w-3.5 h-3.5" />
                   筛选
                 </Button>
               )}
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground font-medium">
                 共 {displayAssets.length} 个素材
                 {displayAssets.length !== brandAssetCount && ` / ${brandAssetCount}`}
               </span>
@@ -105,7 +105,7 @@ export default function AssetsPage() {
             <div className="flex items-center gap-2">
               {/* Sort */}
               <Select value={sortBy} onValueChange={(v) => v && setSortBy(v as typeof sortBy)}>
-                <SelectTrigger className="h-8 w-[130px] text-xs">
+                <SelectTrigger className="h-8 w-[130px] text-xs rounded-full border-border/60">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -115,12 +115,12 @@ export default function AssetsPage() {
                 </SelectContent>
               </Select>
 
-              {/* View toggle */}
-              <div className="flex border rounded-md">
+              {/* View toggle — pill group */}
+              <div className="flex rounded-full border border-border/60 overflow-hidden">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
-                  className="h-8 w-8 rounded-r-none"
+                  className={cn('h-8 w-8 rounded-none', viewMode === 'grid' && 'bg-primary')}
                   onClick={() => setViewMode('grid')}
                 >
                   <LayoutGrid className="w-4 h-4" />
@@ -128,7 +128,7 @@ export default function AssetsPage() {
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
-                  className="h-8 w-8 rounded-l-none"
+                  className={cn('h-8 w-8 rounded-none', viewMode === 'list' && 'bg-primary')}
                   onClick={() => setViewMode('list')}
                 >
                   <List className="w-4 h-4" />
@@ -139,21 +139,25 @@ export default function AssetsPage() {
         </div>
 
         {/* Asset grid / list */}
-        <div className="flex-1 overflow-auto p-4">
+        <div className="flex-1 overflow-auto p-5">
           {!hydrated ? (
             <AssetGridSkeleton />
           ) : displayAssets.length === 0 ? (
             <EmptyState />
           ) : viewMode === 'grid' ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {displayAssets.map((asset) => (
-                <AssetCard key={asset.id} asset={asset} viewMode="grid" />
+              {displayAssets.map((asset, i) => (
+                <div key={asset.id} className="animate-float-in" style={{ animationDelay: `${i * 30}ms` }}>
+                  <AssetCard asset={asset} viewMode="grid" />
+                </div>
               ))}
             </div>
           ) : (
             <div className="space-y-2">
-              {displayAssets.map((asset) => (
-                <AssetCard key={asset.id} asset={asset} viewMode="list" />
+              {displayAssets.map((asset, i) => (
+                <div key={asset.id} className="animate-float-in" style={{ animationDelay: `${i * 30}ms` }}>
+                  <AssetCard asset={asset} viewMode="list" />
+                </div>
               ))}
             </div>
           )}

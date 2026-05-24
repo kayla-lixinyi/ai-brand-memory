@@ -10,9 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { X, RotateCcw } from 'lucide-react';
+import { X, RotateCcw, Sparkles } from 'lucide-react';
 
 const allTypes: AssetType[] = ['image', 'video', 'document', 'psd', 'ai'];
 const allStatuses: AssetStatus[] = ['draft', 'in_review', 'approved', 'expired', 'rejected', 'archived'];
@@ -31,29 +30,31 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
     (filters.sizePreset ? 1 : 0);
 
   return (
-    <div className="w-64 shrink-0 border-r border-border bg-background p-4 space-y-5 overflow-y-auto max-h-[calc(100vh-8rem)]">
+    <div className="w-64 shrink-0 border-r border-border/30 bg-card/50 backdrop-blur-sm p-4 space-y-4 overflow-y-auto max-h-[calc(100vh-8rem)]">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold">筛选</h3>
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-primary" />
+          <h3 className="text-sm font-bold">筛选</h3>
+          {activeCount > 0 && (
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">
+              {activeCount}
+            </span>
+          )}
+        </div>
         <div className="flex items-center gap-1">
           {activeCount > 0 && (
-            <Button variant="ghost" size="sm" className="h-7 text-xs gap-1" onClick={resetFilters}>
+            <Button variant="ghost" size="sm" className="h-7 text-xs gap-1 rounded-full" onClick={resetFilters}>
               <RotateCcw className="w-3 h-3" /> 重置
             </Button>
           )}
           {onClose && (
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={onClose}>
+            <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={onClose}>
               <X className="w-3.5 h-3.5" />
             </Button>
           )}
         </div>
       </div>
-
-      {activeCount > 0 && (
-        <p className="text-xs text-muted-foreground">{activeCount} 个筛选条件</p>
-      )}
-
-      <Separator />
 
       {/* Type */}
       <FilterSection title="素材类型">
@@ -62,7 +63,10 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
             <Badge
               key={t}
               variant={filters.types.includes(t) ? 'default' : 'outline'}
-              className={cn('cursor-pointer text-[11px] px-2 py-0.5 transition-colors', filters.types.includes(t) && 'bg-primary')}
+              className={cn(
+                'cursor-pointer text-[11px] px-2.5 py-0.5 rounded-full transition-all border-border/50',
+                filters.types.includes(t) && 'bg-primary border-primary shadow-sm shadow-primary/20'
+              )}
               onClick={() => toggleFilterItem('types', t)}
             >
               {TYPE_LABELS[t]}
@@ -70,8 +74,6 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
           ))}
         </div>
       </FilterSection>
-
-      <Separator />
 
       {/* Status */}
       <FilterSection title="状态">
@@ -84,8 +86,8 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
                 key={s}
                 variant="secondary"
                 className={cn(
-                  'cursor-pointer text-[11px] px-2 py-0.5 transition-colors border',
-                  active ? `${cfg.bgClass} ${cfg.textClass} border-current` : 'border-transparent hover:border-border'
+                  'cursor-pointer text-[11px] px-2.5 py-0.5 rounded-full transition-all border',
+                  active ? `${cfg.bgClass} ${cfg.textClass} border-current shadow-sm` : 'border-transparent hover:border-border'
                 )}
                 onClick={() => toggleFilterItem('statuses', s)}
               >
@@ -96,8 +98,6 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
         </div>
       </FilterSection>
 
-      <Separator />
-
       {/* Channel */}
       <FilterSection title="渠道">
         <div className="flex flex-wrap gap-1.5">
@@ -105,7 +105,10 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
             <Badge
               key={ch}
               variant={filters.channels.includes(ch) ? 'default' : 'outline'}
-              className={cn('cursor-pointer text-[11px] px-2 py-0.5 transition-colors', filters.channels.includes(ch) && 'bg-primary')}
+              className={cn(
+                'cursor-pointer text-[11px] px-2.5 py-0.5 rounded-full transition-all border-border/50',
+                filters.channels.includes(ch) && 'bg-primary border-primary shadow-sm shadow-primary/20'
+              )}
               onClick={() => toggleFilterItem('channels', ch)}
             >
               {CHANNEL_CONFIG[ch].label}
@@ -114,8 +117,6 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
         </div>
       </FilterSection>
 
-      <Separator />
-
       {/* Category */}
       <FilterSection title="品类">
         <div className="flex flex-wrap gap-1.5">
@@ -123,7 +124,10 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
             <Badge
               key={c}
               variant={filters.categories.includes(c) ? 'default' : 'outline'}
-              className={cn('cursor-pointer text-[11px] px-2 py-0.5 transition-colors', filters.categories.includes(c) && 'bg-primary')}
+              className={cn(
+                'cursor-pointer text-[11px] px-2.5 py-0.5 rounded-full transition-all border-border/50',
+                filters.categories.includes(c) && 'bg-primary border-primary shadow-sm shadow-primary/20'
+              )}
               onClick={() => toggleFilterItem('categories', c)}
             >
               {CATEGORY_LABELS[c]}
@@ -132,19 +136,17 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
         </div>
       </FilterSection>
 
-      <Separator />
-
       {/* Size Preset */}
       <FilterSection title="尺寸预设">
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {SIZE_PRESETS.map((sp) => (
             <button
               key={sp.label}
               className={cn(
-                'w-full text-left text-xs px-2 py-1.5 rounded-md transition-colors',
+                'w-full text-left text-xs px-3 py-2 rounded-xl transition-all',
                 filters.sizePreset === sp.label
-                  ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted text-muted-foreground'
+                  ? 'bg-primary/10 text-primary font-semibold shadow-sm'
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
               )}
               onClick={() => setFilter('sizePreset', filters.sizePreset === sp.label ? undefined : sp.label)}
             >
@@ -154,13 +156,11 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
         </div>
       </FilterSection>
 
-      <Separator />
-
       {/* SKU */}
       <FilterSection title="SKU">
         <Input
           placeholder="搜索 SKU..."
-          className="h-8 text-xs"
+          className="h-8 text-xs rounded-full border-border/50"
           value={filters.sku || ''}
           onChange={(e) => setFilter('sku', e.target.value || undefined)}
         />
@@ -171,8 +171,8 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
 
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-2">
-      <Label className="text-xs font-medium text-muted-foreground">{title}</Label>
+    <div className="space-y-2 pt-3 border-t border-border/20 first:border-0 first:pt-0">
+      <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{title}</Label>
       {children}
     </div>
   );

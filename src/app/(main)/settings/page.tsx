@@ -10,9 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { Settings, Tag, FileText, RotateCcw, Shield } from 'lucide-react';
+import { Settings, Tag, FileText, RotateCcw, Shield, Sparkles, Zap, Bell } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function SettingsPage() {
@@ -22,7 +21,11 @@ export default function SettingsPage() {
   const brand = brands.find((b) => b.id === activeBrandId);
   const rule = namingRules.find((r) => r.brandId === activeBrandId);
 
-  const [tags, setTags] = useState(['口红', '眼影', '粉底', '腮红', '海报', '视频', '国风', '简约', '梦幻', '日常']);
+  const [tags, setTags] = useState([
+    '丝绒唇釉', '柔焦散粉', '七色眼影盘', '高光修容', '腮红', '眉笔',
+    '卸妆膏', '唇釉色卡', 'Shopee主图', 'TikTok竖版', 'Instagram方图',
+    '618大促', '新品上市', '品牌指南', 'KOL素材', '产品特写',
+  ]);
   const [newTag, setNewTag] = useState('');
 
   const addTag = () => {
@@ -44,111 +47,146 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-lg font-semibold flex items-center gap-2">
-          <Settings className="w-5 h-5" /> 品牌设置
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">{brand?.name} ({brand?.nameEn})</p>
+      {/* Header */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-coral shadow-lg shadow-primary/20">
+          <Settings className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">品牌设置</h1>
+          <p className="text-sm text-muted-foreground">{brand?.name} ({brand?.nameEn})</p>
+        </div>
       </div>
 
       {/* Naming rules */}
-      <Card className="p-5 space-y-4">
-        <h2 className="text-sm font-semibold flex items-center gap-2">
-          <FileText className="w-4 h-4" /> 命名规则
-        </h2>
-        {rule ? (
-          <div className="space-y-3">
-            <div>
-              <Label className="text-xs text-muted-foreground">命名模板</Label>
-              <div className="p-2 bg-muted rounded-md font-mono text-sm mt-1">{rule.pattern}</div>
-            </div>
-            <div>
-              <Label className="text-xs text-muted-foreground">示例</Label>
-              <div className="p-2 bg-muted rounded-md font-mono text-sm mt-1">{rule.example}</div>
-            </div>
-            <div>
-              <Label className="text-xs text-muted-foreground">字段</Label>
-              <div className="flex flex-wrap gap-1.5 mt-1">
-                {rule.fields.map((f) => (
-                  <Badge key={f} variant="secondary" className="text-xs">{f}</Badge>
-                ))}
+      <Card className="p-0 overflow-hidden border-border/40">
+        <div className="p-5 pb-0">
+          <h2 className="text-sm font-bold flex items-center gap-2">
+            <FileText className="w-4 h-4 text-primary" /> 命名规则
+          </h2>
+        </div>
+        <div className="p-5">
+          {rule ? (
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">命名模板</Label>
+                <div className="p-3 glass rounded-xl font-mono text-sm text-primary font-medium">{rule.pattern}</div>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">示例</Label>
+                <div className="p-3 glass rounded-xl font-mono text-sm">{rule.example}</div>
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">字段</Label>
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  {rule.fields.map((f) => (
+                    <Badge key={f} variant="secondary" className="text-[11px] rounded-full px-3 py-0.5">{f}</Badge>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <p className="text-sm text-muted-foreground">暂无命名规则</p>
-        )}
+          ) : (
+            <p className="text-sm text-muted-foreground">暂无命名规则</p>
+          )}
+        </div>
       </Card>
 
       {/* Tag management */}
-      <Card className="p-5 space-y-4">
-        <h2 className="text-sm font-semibold flex items-center gap-2">
-          <Tag className="w-4 h-4" /> 标签管理
-        </h2>
-        <div className="flex flex-wrap gap-1.5">
-          {tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="text-xs gap-1 pr-1">
-              {tag}
-              <button className="hover:text-destructive ml-1" onClick={() => removeTag(tag)}>×</button>
-            </Badge>
-          ))}
+      <Card className="p-0 overflow-hidden border-border/40">
+        <div className="p-5 pb-0">
+          <h2 className="text-sm font-bold flex items-center gap-2">
+            <Tag className="w-4 h-4 text-primary" /> 标签管理
+          </h2>
         </div>
-        <div className="flex gap-2">
-          <Input
-            placeholder="添加新标签"
-            className="h-8 text-xs flex-1"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && addTag()}
-          />
-          <Button size="sm" className="h-8 text-xs" onClick={addTag}>添加</Button>
+        <div className="p-5 space-y-4">
+          <div className="flex flex-wrap gap-1.5">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-[11px] gap-1.5 rounded-full px-3 py-1 pr-2 transition-all hover:bg-destructive/10">
+                {tag}
+                <button className="hover:text-destructive transition-colors" onClick={() => removeTag(tag)}>
+                  <span className="text-xs">×</span>
+                </button>
+              </Badge>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <Input
+              placeholder="添加新标签"
+              className="h-9 text-xs flex-1 rounded-full border-border/60"
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addTag()}
+            />
+            <Button size="sm" className="h-9 text-xs rounded-full px-5 bg-gradient-coral text-white shadow-sm" onClick={addTag}>添加</Button>
+          </div>
         </div>
       </Card>
 
       {/* Demo settings */}
-      <Card className="p-5 space-y-4">
-        <h2 className="text-sm font-semibold flex items-center gap-2">
-          <Shield className="w-4 h-4" /> 演示设置
-        </h2>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">AI 自动标签</p>
-              <p className="text-xs text-muted-foreground">上传时自动识别素材内容</p>
-            </div>
-            <Switch defaultChecked />
-          </div>
-          <Separator />
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">相似素材检测</p>
-              <p className="text-xs text-muted-foreground">上传时检查是否有重复素材</p>
-            </div>
-            <Switch defaultChecked />
-          </div>
-          <Separator />
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">飞书通知</p>
-              <p className="text-xs text-muted-foreground">审批结果同步到飞书群</p>
-            </div>
-            <Switch defaultChecked />
-          </div>
+      <Card className="p-0 overflow-hidden border-border/40">
+        <div className="p-5 pb-0">
+          <h2 className="text-sm font-bold flex items-center gap-2">
+            <Shield className="w-4 h-4 text-primary" /> 演示设置
+          </h2>
+        </div>
+        <div className="p-5 space-y-1">
+          <SettingRow
+            icon={Sparkles}
+            title="AI 自动标签"
+            desc="上传时识别产品品类、色号、妆效风格"
+            defaultChecked
+          />
+          <SettingRow
+            icon={Zap}
+            title="相似素材检测"
+            desc="检测重复素材，避免不同渠道使用过期版本"
+            defaultChecked
+          />
+          <SettingRow
+            icon={Bell}
+            title="飞书通知"
+            desc="审批结果、素材过期提醒同步到飞书「橘朵素材管理」群"
+            defaultChecked
+          />
         </div>
       </Card>
 
       {/* Reset */}
-      <Card className="p-5">
+      <Card className="p-5 border-border/40">
         <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-destructive">重置 Demo 数据</p>
-            <p className="text-xs text-muted-foreground">恢复所有素材和审批数据到初始状态</p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-destructive/10 flex items-center justify-center">
+              <RotateCcw className="w-4 h-4 text-destructive" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-destructive">重置 Demo 数据</p>
+              <p className="text-xs text-muted-foreground">恢复所有素材和审批数据到初始状态</p>
+            </div>
           </div>
-          <Button variant="destructive" size="sm" className="gap-1.5" onClick={handleReset}>
+          <Button variant="destructive" size="sm" className="gap-1.5 rounded-full px-5 shadow-sm" onClick={handleReset}>
             <RotateCcw className="w-3.5 h-3.5" /> 重置
           </Button>
         </div>
       </Card>
+    </div>
+  );
+}
+
+function SettingRow({ icon: Icon, title, desc, defaultChecked }: {
+  icon: React.ElementType; title: string; desc: string; defaultChecked?: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between p-3 rounded-2xl hover:bg-muted/50 transition-colors">
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-primary" />
+        </div>
+        <div>
+          <p className="text-sm font-medium">{title}</p>
+          <p className="text-xs text-muted-foreground">{desc}</p>
+        </div>
+      </div>
+      <Switch defaultChecked={defaultChecked} />
     </div>
   );
 }

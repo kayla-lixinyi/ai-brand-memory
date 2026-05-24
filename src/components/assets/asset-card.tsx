@@ -23,20 +23,20 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
   if (viewMode === 'list') {
     return (
       <Link href={`/assets/${asset.id}`}>
-        <Card className="flex items-center gap-4 p-3 hover:shadow-md hover:shadow-primary/5 transition-shadow cursor-pointer group">
+        <Card className="flex items-center gap-4 p-3.5 card-lift cursor-pointer group border-border/40">
           {/* Thumbnail */}
-          <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
-            <img src={asset.thumbnailUrl} alt={asset.name} className="w-full h-full object-cover" />
+          <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-muted shrink-0 ring-1 ring-border/30">
+            <img src={asset.thumbnailUrl} alt={asset.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
             <div className="absolute top-1 left-1">
-              <TypeIcon className="w-3.5 h-3.5 text-white drop-shadow-md" />
+              <TypeIcon className="w-3 h-3 text-white drop-shadow-md" />
             </div>
           </div>
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">{asset.name}</p>
+            <p className="text-sm font-semibold truncate group-hover:text-primary transition-colors">{asset.name}</p>
             <div className="flex items-center gap-2 mt-1">
-              <Badge className={cn('text-[10px] px-1.5 py-0', statusCfg.bgClass, statusCfg.textClass)} variant="secondary">
+              <Badge className={cn('text-[10px] px-2 py-0 rounded-full', statusCfg.bgClass, statusCfg.textClass)} variant="secondary">
                 {statusCfg.label}
               </Badge>
               <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[asset.category]}</span>
@@ -47,7 +47,7 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
           {/* Channels */}
           <div className="flex gap-1">
             {asset.channels.slice(0, 3).map((ch) => (
-              <Badge key={ch} variant="outline" className="text-[10px] px-1.5 py-0">
+              <Badge key={ch} variant="outline" className="text-[10px] px-2 py-0 rounded-full border-border/60">
                 {CHANNEL_CONFIG[ch].label}
               </Badge>
             ))}
@@ -67,57 +67,59 @@ export function AssetCard({ asset, viewMode = 'grid' }: { asset: Asset; viewMode
 
   return (
     <Link href={`/assets/${asset.id}`}>
-      <Card className="overflow-hidden hover:shadow-lg hover:shadow-primary/5 transition-all cursor-pointer group border-border/40">
-        {/* Thumbnail */}
+      <Card className="overflow-hidden card-lift cursor-pointer group border-border/40">
+        {/* Thumbnail — large, visual-first */}
         <div className="relative aspect-square bg-muted overflow-hidden">
           <img
             src={asset.thumbnailUrl}
             alt={asset.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
-          {/* Status badge */}
-          <div className="absolute top-2 left-2">
-            <Badge className={cn('text-[10px] px-2 py-0.5 shadow-sm', statusCfg.bgClass, statusCfg.textClass)} variant="secondary">
+          {/* Status badge — pill */}
+          <div className="absolute top-2.5 left-2.5">
+            <Badge className={cn('text-[10px] px-2.5 py-0.5 rounded-full shadow-sm', statusCfg.bgClass, statusCfg.textClass)} variant="secondary">
               {statusCfg.label}
             </Badge>
           </div>
-          {/* Type icon */}
-          <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/40 flex items-center justify-center">
+          {/* Type icon — softer circle */}
+          <div className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
             <TypeIcon className="w-3.5 h-3.5 text-white" />
           </div>
-          {/* Channels */}
-          <div className="absolute bottom-2 left-2 flex gap-1">
+          {/* Channels — bottom pills */}
+          <div className="absolute bottom-2.5 left-2.5 flex gap-1">
             {asset.channels.slice(0, 3).map((ch) => (
               <span
                 key={ch}
-                className="px-1.5 py-0.5 rounded text-[9px] font-medium bg-black/50 text-white backdrop-blur-sm"
+                className="px-2 py-0.5 rounded-full text-[9px] font-medium bg-black/40 text-white backdrop-blur-sm"
               >
                 {CHANNEL_CONFIG[ch].label}
               </span>
             ))}
             {asset.channels.length > 3 && (
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-medium bg-black/50 text-white backdrop-blur-sm">
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-medium bg-black/40 text-white backdrop-blur-sm">
                 +{asset.channels.length - 3}
               </span>
             )}
           </div>
           {/* Hover overlay */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-            <Eye className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md flex items-center justify-center shadow-lg scale-75 group-hover:scale-100 transition-transform duration-300">
+              <Eye className="w-5 h-5 text-foreground/80" />
+            </div>
           </div>
         </div>
 
         {/* Info */}
-        <div className="p-3">
-          <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">{asset.name}</p>
-          <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+        <div className="p-3.5">
+          <p className="text-sm font-semibold truncate group-hover:text-primary transition-colors">{asset.name}</p>
+          <div className="flex items-center gap-1 mt-2 flex-wrap">
             {asset.tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-[10px] px-1.5 py-0 font-normal">
+              <Badge key={tag} variant="outline" className="text-[10px] px-2 py-0 rounded-full font-normal border-border/50">
                 {tag}
               </Badge>
             ))}
           </div>
-          <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
+          <div className="flex items-center justify-between mt-2.5 text-xs text-muted-foreground">
             <span>{timeAgo(asset.updatedAt)}</span>
             <span className="flex items-center gap-1">
               <Download className="w-3 h-3" /> {asset.downloads}

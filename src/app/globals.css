@@ -136,6 +136,90 @@
   }
 }
 
+/* ── Judydoll Design System: Gradient & Glass Utilities ── */
+
+/* Coral gradient for accent surfaces */
+.bg-gradient-coral {
+  background: linear-gradient(135deg, oklch(0.72 0.14 25) 0%, oklch(0.78 0.12 40) 100%);
+}
+.dark .bg-gradient-coral {
+  background: linear-gradient(135deg, oklch(0.65 0.12 25) 0%, oklch(0.70 0.10 40) 100%);
+}
+
+/* Warm gradient for card headers / hero sections */
+.bg-gradient-warm {
+  background: linear-gradient(135deg, oklch(0.97 0.015 80) 0%, oklch(0.95 0.02 30) 100%);
+}
+.dark .bg-gradient-warm {
+  background: linear-gradient(135deg, oklch(0.22 0.025 165) 0%, oklch(0.20 0.03 25) 100%);
+}
+
+/* Sidebar gradient */
+.bg-gradient-sidebar {
+  background: linear-gradient(180deg, oklch(0.35 0.05 165) 0%, oklch(0.28 0.04 175) 100%);
+}
+.dark .bg-gradient-sidebar {
+  background: linear-gradient(180deg, oklch(0.22 0.03 165) 0%, oklch(0.18 0.025 175) 100%);
+}
+
+/* Glass card effect */
+.glass {
+  background: oklch(1 0 0 / 60%);
+  backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid oklch(1 0 0 / 20%);
+}
+.dark .glass {
+  background: oklch(0.2 0.02 165 / 50%);
+  backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid oklch(1 0 0 / 8%);
+}
+
+/* Stat card gradients */
+.stat-coral { background: linear-gradient(135deg, oklch(0.95 0.04 25) 0%, oklch(0.98 0.01 80) 100%); }
+.stat-amber { background: linear-gradient(135deg, oklch(0.95 0.04 80) 0%, oklch(0.98 0.01 85) 100%); }
+.stat-blue { background: linear-gradient(135deg, oklch(0.95 0.04 240) 0%, oklch(0.98 0.01 260) 100%); }
+.stat-red { background: linear-gradient(135deg, oklch(0.95 0.04 25) 0%, oklch(0.98 0.01 0) 100%); }
+.dark .stat-coral { background: linear-gradient(135deg, oklch(0.25 0.04 25) 0%, oklch(0.20 0.02 25) 100%); }
+.dark .stat-amber { background: linear-gradient(135deg, oklch(0.25 0.04 80) 0%, oklch(0.20 0.02 80) 100%); }
+.dark .stat-blue { background: linear-gradient(135deg, oklch(0.25 0.04 240) 0%, oklch(0.20 0.02 240) 100%); }
+.dark .stat-red { background: linear-gradient(135deg, oklch(0.25 0.04 25) 0%, oklch(0.20 0.02 0) 100%); }
+
+/* Image card hover lift */
+.card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px oklch(0.72 0.14 25 / 0.15), 0 4px 8px -4px oklch(0 0 0 / 0.06);
+}
+.dark .card-lift:hover {
+  box-shadow: 0 12px 24px -8px oklch(0 0 0 / 0.4), 0 4px 8px -4px oklch(0 0 0 / 0.3);
+}
+
+/* Pill button style */
+.btn-pill {
+  border-radius: 9999px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+/* Gradient border (fake via background-clip) */
+.gradient-border {
+  position: relative;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, oklch(0.72 0.14 25), oklch(0.35 0.05 165));
+  z-index: -1;
+}
+
+/* ── Animations ── */
+
 /* AI tagging animation */
 @keyframes tag-reveal {
   0% { opacity: 0; transform: translateY(8px) scale(0.95); }
@@ -165,6 +249,16 @@
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+/* Float-in for cards */
+@keyframes float-in {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float-in {
+  animation: float-in 0.5s ease-out forwards;
+}
+
 /* Skeleton shimmer */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
@@ -176,6 +270,18 @@
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
+
+/* Gentle bounce for approval actions */
+@keyframes gentle-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.hover-bounce:hover {
+  animation: gentle-bounce 0.3s ease;
+}
+
+/* ── Chart & State ── */
 
 /* CSS pie chart via conic-gradient */
 .pie-chart {
