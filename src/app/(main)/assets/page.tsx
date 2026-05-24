@@ -104,7 +104,11 @@ export default function AssetsPage() {
 
             <div className="flex items-center gap-2">
               {/* Sort */}
-              <Select value={sortBy} onValueChange={(v) => v && setSortBy(v as typeof sortBy)}>
+              <Select
+                value={sortBy}
+                onValueChange={(v) => v && setSortBy(v as typeof sortBy)}
+                items={{ newest: '最新上传', most_downloads: '最多下载', relevance: '相关性' }}
+              >
                 <SelectTrigger className="h-8 w-[130px] text-xs rounded-full border-border/60">
                   <SelectValue />
                 </SelectTrigger>

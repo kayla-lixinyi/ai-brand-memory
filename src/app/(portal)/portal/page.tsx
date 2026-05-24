@@ -49,7 +49,11 @@ export default function PortalLoginPage() {
         <div className="space-y-4">
           <div className="space-y-2">
             <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">选择品牌</Label>
-            <Select value={brandId} onValueChange={(v) => v && setBrandId(v)}>
+            <Select
+              value={brandId}
+              onValueChange={(v) => v && setBrandId(v)}
+              items={Object.fromEntries(brands.map((b) => [b.id, `${b.logo} ${b.name} (${b.nameEn})`]))}
+            >
               <SelectTrigger className="rounded-full border-border/60">
                 <SelectValue />
               </SelectTrigger>

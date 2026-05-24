@@ -147,7 +147,11 @@ export default function UploadPage() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">品类 *</Label>
-            <Select value={category} onValueChange={(v) => v && setCategory(v as AssetCategory)}>
+            <Select
+              value={category}
+              onValueChange={(v) => v && setCategory(v as AssetCategory)}
+              items={Object.fromEntries(allCategories.map((c) => [c, CATEGORY_LABELS[c]]))}
+            >
               <SelectTrigger className="h-9 rounded-full border-border/60"><SelectValue /></SelectTrigger>
               <SelectContent>
                 {allCategories.map((c) => (
