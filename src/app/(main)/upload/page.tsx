@@ -35,6 +35,7 @@ export default function UploadPage() {
   const [category, setCategory] = useState<AssetCategory>('lipstick');
   const [selectedChannels, setSelectedChannels] = useState<Channel[]>(['shopee']);
   const [dragActive, setDragActive] = useState(false);
+  const [attempted, setAttempted] = useState(false);
 
   const {
     stage, progress, aiTags, autoName, similarWarning, startUpload, reset,
@@ -58,7 +59,11 @@ export default function UploadPage() {
     if (selected.length > 0) setFiles(selected);
   };
 
+  const canSubmit = files.length > 0 && sku.trim() && selectedChannels.length > 0;
+
   const handleUpload = () => {
+    setAttempted(true);
+    if (!canSubmit) return;
     startUpload(
       brand?.name || '品牌',
       sku || 'SKU-001',
@@ -71,6 +76,7 @@ export default function UploadPage() {
     reset();
     setFiles([]);
     setSku('');
+    setAttempted(false);
   };
 
   return (
@@ -197,12 +203,19 @@ export default function UploadPage() {
 
         <Button
           className="w-full gap-2 h-11 rounded-full bg-gradient-coral text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
-          disabled={files.length === 0 || !sku || stage !== 'idle'}
+          disabled={!canSubmit || stage !== 'idle'}
           onClick={handleUpload}
         >
           <Upload className="w-4 h-4" />
           开始上传
         </Button>
+        {attempted && !canSubmit && (
+          <div className="text-xs text-destructive space-y-0.5">
+            {files.length === 0 && <p>请选择文件</p>}
+            {!sku.trim() && <p>请填写 SKU</p>}
+            {selectedChannels.length === 0 && <p>请选择至少一个投放渠道</p>}
+          </div>
+        )}
       </Card>
 
       {/* Upload progress */}

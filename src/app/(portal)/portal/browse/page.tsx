@@ -9,8 +9,9 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn, formatFileSize } from '@/lib/utils';
-import { Download, LogOut, Image as ImageIcon, Stamp, Eye } from 'lucide-react';
+import { Download, LogOut, Image as ImageIcon, Stamp, Eye, Search } from 'lucide-react';
 import { toast } from 'sonner';
+import { DownloadConfirmDialog } from '@/components/assets/download-confirm-dialog';
 
 const allChannels: Channel[] = ['shopee', 'tiktok', 'google', 'instagram', 'lazada', 'official_site'];
 
@@ -20,6 +21,8 @@ export default function PortalBrowsePage() {
   const [brandId, setBrandId] = useState('judydoll');
   const [selectedChannel, setSelectedChannel] = useState<Channel | 'all'>('all');
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [skuQuery, setSkuQuery] = useState('');
+  const [downloadAsset, setDownloadAsset] = useState<Asset | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -46,12 +49,12 @@ export default function PortalBrowsePage() {
         result = result.filter((a) => a.width === preset.width && a.height === preset.height);
       }
     }
+    if (skuQuery.trim()) {
+      const q = skuQuery.trim().toLowerCase();
+      result = result.filter((a) => a.sku.toLowerCase().includes(q));
+    }
     return result;
-  }, [assets, brandId, selectedChannel, selectedSize]);
-
-  const handleDownload = (asset: Asset) => {
-    toast.success(`已下载: ${asset.name}（带水印）`, { description: '水印已自动添加到下载文件中' });
-  };
+  }, [assets, brandId, selectedChannel, selectedSize, skuQuery]);
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
@@ -131,6 +134,17 @@ export default function PortalBrowsePage() {
         ))}
       </div>
 
+      {/* SKU search */}
+      <div className="relative w-64">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+        <input
+          placeholder="搜索 SKU..."
+          className="w-full h-9 pl-9 pr-3 text-sm bg-background border border-border/60 rounded-full outline-none focus:ring-1 focus:ring-primary/30 placeholder:text-muted-foreground/60 transition-all"
+          value={skuQuery}
+          onChange={(e) => setSkuQuery(e.target.value)}
+        />
+      </div>
+
       {/* Asset count */}
       <p className="text-xs text-muted-foreground font-medium">{approvedAssets.length} 个素材</p>
 
@@ -188,7 +202,7 @@ export default function PortalBrowsePage() {
                   variant="outline"
                   size="sm"
                   className="w-full h-8 text-xs gap-1.5 rounded-full border-border/60"
-                  onClick={() => handleDownload(asset)}
+                  onClick={() => setDownloadAsset(asset)}
                 >
                   <Download className="w-3.5 h-3.5" /> 下载（含水印）
                 </Button>
@@ -197,6 +211,16 @@ export default function PortalBrowsePage() {
           ))}
         </div>
       )}
+
+      <DownloadConfirmDialog
+        asset={downloadAsset}
+        open={!!downloadAsset}
+        onOpenChange={(o) => !o && setDownloadAsset(null)}
+        onConfirm={(a) => {
+          toast.success(`已下载: ${a.name}（带水印）`, { description: '水印已自动添加到下载文件中' });
+        }}
+        watermark
+      />
     </div>
   );
 }

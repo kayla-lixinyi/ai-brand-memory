@@ -17,7 +17,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { LayoutGrid, List, SlidersHorizontal, PackageOpen } from 'lucide-react';
+import { LayoutGrid, List, SlidersHorizontal, PackageOpen, CheckSquare, Archive, Clock, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 function AssetGridSkeleton() {
   return (
@@ -54,9 +55,12 @@ function EmptyState() {
 export default function AssetsPage() {
   const filteredAssets = useAssets();
   const allAssets = useAssetStore((s) => s.assets);
+  const batchUpdateStatus = useAssetStore((s) => s.batchUpdateStatus);
   const { viewMode, setViewMode, sortBy, setSortBy, activeBrandId, searchMode } = useFilterStore();
   const [showFilter, setShowFilter] = useState(true);
   const [hydrated, setHydrated] = useState(false);
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   React.useEffect(() => setHydrated(true), []);
 
@@ -67,6 +71,28 @@ export default function AssetsPage() {
     setSemanticIds(ids);
     setSemanticReason(reason);
   }, []);
+
+  const toggleSelect = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const exitSelectMode = useCallback(() => {
+    setSelectMode(false);
+    setSelectedIds(new Set());
+  }, []);
+
+  const handleBatchAction = useCallback((action: 'archived' | 'expired') => {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) return;
+    batchUpdateStatus(ids, action);
+    toast.success(`已${action === 'archived' ? '归档' : '标记过期'} ${ids.length} 个素材`);
+    exitSelectMode();
+  }, [selectedIds, batchUpdateStatus, exitSelectMode]);
 
   const displayAssets =
     (searchMode === 'semantic' || searchMode === 'image') && semanticIds.length > 0
@@ -96,9 +122,20 @@ export default function AssetsPage() {
                   筛选
                 </Button>
               )}
+              <Button
+                variant={selectMode ? 'default' : 'outline'}
+                size="sm"
+                className={cn('h-8 gap-1.5 text-xs rounded-full px-3.5', selectMode ? 'bg-primary' : 'border-border/60')}
+                onClick={() => selectMode ? exitSelectMode() : setSelectMode(true)}
+              >
+                <CheckSquare className="w-3.5 h-3.5" />
+                {selectMode ? '取消选择' : '多选'}
+              </Button>
               <span className="text-xs text-muted-foreground font-medium">
-                共 {displayAssets.length} 个素材
-                {displayAssets.length !== brandAssetCount && ` / ${brandAssetCount}`}
+                {selectMode && selectedIds.size > 0
+                  ? `已选 ${selectedIds.size} 个`
+                  : `共 ${displayAssets.length} 个素材`}
+                {!selectMode && displayAssets.length !== brandAssetCount && ` / ${brandAssetCount}`}
               </span>
             </div>
 
@@ -152,7 +189,13 @@ export default function AssetsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {displayAssets.map((asset, i) => (
                 <div key={asset.id} className="animate-float-in" style={{ animationDelay: `${i * 30}ms` }}>
-                  <AssetCard asset={asset} viewMode="grid" />
+                  <AssetCard
+                    asset={asset}
+                    viewMode="grid"
+                    selectable={selectMode}
+                    selected={selectedIds.has(asset.id)}
+                    onToggleSelect={toggleSelect}
+                  />
                 </div>
               ))}
             </div>
@@ -160,12 +203,66 @@ export default function AssetsPage() {
             <div className="space-y-2">
               {displayAssets.map((asset, i) => (
                 <div key={asset.id} className="animate-float-in" style={{ animationDelay: `${i * 30}ms` }}>
-                  <AssetCard asset={asset} viewMode="list" />
+                  <AssetCard
+                    asset={asset}
+                    viewMode="list"
+                    selectable={selectMode}
+                    selected={selectedIds.has(asset.id)}
+                    onToggleSelect={toggleSelect}
+                  />
                 </div>
               ))}
             </div>
           )}
         </div>
+
+        {/* Batch action toolbar */}
+        {selectMode && selectedIds.size > 0 && (
+          <div className="sticky bottom-0 mx-5 mb-4">
+            <div className="flex items-center justify-between gap-3 px-5 py-3 rounded-2xl bg-card border border-border/60 shadow-xl">
+              <span className="text-sm font-medium">已选 {selectedIds.size} 个素材</span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1.5 text-xs rounded-full px-4"
+                  onClick={() => {
+                    const allIds = displayAssets.map((a) => a.id);
+                    setSelectedIds(new Set(allIds));
+                  }}
+                >
+                  全选
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1.5 text-xs rounded-full px-4"
+                  onClick={() => handleBatchAction('archived')}
+                >
+                  <Archive className="w-3.5 h-3.5" />
+                  批量归档
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1.5 text-xs rounded-full px-4"
+                  onClick={() => handleBatchAction('expired')}
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                  标记过期
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 text-xs rounded-full px-3"
+                  onClick={exitSelectMode}
+                >
+                  <X className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

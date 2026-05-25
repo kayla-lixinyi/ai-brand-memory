@@ -167,7 +167,7 @@ export const assets: Asset[] = [
       { version: 1, url: img('a5'), uploadedAt: dateStr(20), uploadedBy: 'u3', changeNote: '初版', size: 700000 },
       { version: 2, url: img('a5'), uploadedAt: dateStr(14), uploadedBy: 'u3', changeNote: '增加促销信息', size: 720000 },
     ],
-    currentVersion: 2, uploadedBy: 'u3', uploadedAt: dateStr(20), updatedAt: dateStr(14), downloads: 45,
+    currentVersion: 2, uploadedBy: 'u3', uploadedAt: dateStr(20), updatedAt: dateStr(14), expiresAt: dateStr(-3), downloads: 45,
     auditTrail: [
       { id: 'at9', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u4', userName: '李审核', timestamp: dateStr(13) },
     ],
@@ -315,7 +315,7 @@ export const assets: Asset[] = [
       { version: 2, url: img('a14'), uploadedAt: dateStr(28), uploadedBy: 'u8', changeNote: '增加折扣信息', size: 810000 },
       { version: 3, url: img('a14'), uploadedAt: dateStr(20), uploadedBy: 'u8', changeNote: '最终审核版', size: 850000 },
     ],
-    currentVersion: 3, uploadedBy: 'u8', uploadedAt: dateStr(35), updatedAt: dateStr(20), downloads: 203,
+    currentVersion: 3, uploadedBy: 'u8', uploadedAt: dateStr(35), updatedAt: dateStr(20), expiresAt: dateStr(-7), downloads: 203,
     auditTrail: [
       { id: 'at18', action: '审核通过', fromStatus: 'in_review', toStatus: 'approved', userId: 'u5', userName: '陈美妆', timestamp: dateStr(19) },
     ],

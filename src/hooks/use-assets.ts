@@ -37,6 +37,14 @@ export function useAssets() {
         result = result.filter((a) => a.width === preset.width && a.height === preset.height);
       }
     }
+    if (filters.dateRange) {
+      const from = new Date(filters.dateRange.from).getTime();
+      const to = new Date(filters.dateRange.to).getTime();
+      result = result.filter((a) => {
+        const t = new Date(a.uploadedAt).getTime();
+        return t >= from && t <= to;
+      });
+    }
 
     // Fulltext search
     if (searchQuery && searchMode === 'fulltext') {

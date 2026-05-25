@@ -9,6 +9,7 @@ interface AssetState {
   getAsset: (id: string) => Asset | undefined;
   getAssetsByBrand: (brandId: string) => Asset[];
   updateAssetStatus: (assetId: string, status: AssetStatus, note?: string, userId?: string, userName?: string) => void;
+  batchUpdateStatus: (assetIds: string[], status: AssetStatus, userId?: string, userName?: string) => void;
   addAsset: (asset: Asset) => void;
   resetData: () => void;
 }
@@ -36,5 +37,22 @@ export const useAssetStore = create<AssetState>((set, get) => ({
     }));
   },
   addAsset: (asset) => set((state) => ({ assets: [asset, ...state.assets] })),
+  batchUpdateStatus: (assetIds, status, userId, userName) => {
+    set((state) => ({
+      assets: state.assets.map((a) => {
+        if (!assetIds.includes(a.id)) return a;
+        const auditEntry = {
+          id: `at-${Date.now()}-${a.id}`,
+          action: `批量操作：状态变更为${status}`,
+          fromStatus: a.status,
+          toStatus: status,
+          userId: userId || 'u1',
+          userName: userName || '系统',
+          timestamp: new Date().toISOString(),
+        };
+        return { ...a, status, updatedAt: new Date().toISOString(), auditTrail: [...a.auditTrail, auditEntry] };
+      }),
+    }));
+  },
   resetData: () => set({ assets: [...mockAssets] }),
 }));

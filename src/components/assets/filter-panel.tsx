@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useFilterStore } from '@/store/filter-store';
+import { useAssetStore } from '@/store/asset-store';
 import {
   AssetType, AssetStatus, Channel, AssetCategory,
   TYPE_LABELS, STATUS_CONFIG, CHANNEL_CONFIG, CATEGORY_LABELS, SIZE_PRESETS,
@@ -9,7 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { X, RotateCcw, ChevronDown, Search } from 'lucide-react';
+import { X, RotateCcw, ChevronDown, Search, Calendar, Tag } from 'lucide-react';
 
 const allTypes: AssetType[] = ['image', 'video', 'document', 'psd', 'ai'];
 const allStatuses: AssetStatus[] = ['draft', 'in_review', 'approved', 'expired', 'rejected', 'archived'];
@@ -17,15 +18,27 @@ const allChannels: Channel[] = ['shopee', 'tiktok', 'google', 'instagram', 'laza
 const allCategories: AssetCategory[] = ['lipstick', 'foundation', 'eyeshadow', 'poster', 'video', 'brand_doc', 'blush', 'mascara', 'skincare'];
 
 export function FilterPanel({ onClose }: { onClose?: () => void }) {
-  const { filters, toggleFilterItem, setFilter, resetFilters } = useFilterStore();
+  const { filters, toggleFilterItem, setFilter, resetFilters, activeBrandId } = useFilterStore();
+  const assets = useAssetStore((s) => s.assets);
+
+  // Extract unique tags from current brand's assets
+  const availableTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    assets
+      .filter((a) => a.brandId === activeBrandId)
+      .forEach((a) => a.tags.forEach((t) => tagSet.add(t)));
+    return Array.from(tagSet).sort();
+  }, [assets, activeBrandId]);
 
   const activeCount =
     filters.types.length +
     filters.statuses.length +
     filters.channels.length +
     filters.categories.length +
+    filters.tags.length +
     (filters.sku ? 1 : 0) +
-    (filters.sizePreset ? 1 : 0);
+    (filters.sizePreset ? 1 : 0) +
+    (filters.dateRange ? 1 : 0);
 
   return (
     <div className="w-56 shrink-0 border-r border-border/40 bg-background flex flex-col max-h-[calc(100vh-8rem)]">
@@ -136,6 +149,51 @@ export function FilterPanel({ onClose }: { onClose?: () => void }) {
             />
           </div>
         </div>
+
+        {/* Upload Date Range */}
+        <FilterSection title="上传时间" count={filters.dateRange ? 1 : 0}>
+          {[
+            { label: '最近 7 天', days: 7 },
+            { label: '最近 30 天', days: 30 },
+            { label: '最近 90 天', days: 90 },
+          ].map((preset) => {
+            const now = new Date();
+            const from = new Date();
+            from.setDate(now.getDate() - preset.days);
+            const isActive =
+              filters.dateRange?.from === from.toISOString().slice(0, 10) &&
+              filters.dateRange?.to === now.toISOString().slice(0, 10);
+            return (
+              <FilterCheckItem
+                key={preset.label}
+                label={preset.label}
+                active={isActive}
+                onClick={() =>
+                  setFilter(
+                    'dateRange',
+                    isActive
+                      ? undefined
+                      : { from: from.toISOString().slice(0, 10), to: now.toISOString().slice(0, 10) }
+                  )
+                }
+              />
+            );
+          })}
+        </FilterSection>
+
+        {/* Tags */}
+        {availableTags.length > 0 && (
+          <FilterSection title="标签" count={filters.tags.length} defaultOpen={false}>
+            {availableTags.map((tag) => (
+              <FilterCheckItem
+                key={tag}
+                label={tag}
+                active={filters.tags.includes(tag)}
+                onClick={() => toggleFilterItem('tags', tag)}
+              />
+            ))}
+          </FilterSection>
+        )}
       </div>
     </div>
   );

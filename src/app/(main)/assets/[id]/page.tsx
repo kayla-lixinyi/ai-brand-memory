@@ -11,6 +11,8 @@ import { Card } from '@/components/ui/card';
 import {
   ArrowLeft, Download, Tag, Layers, ChevronRight, Eye, History, GitBranch, Sparkles, Info,
 } from 'lucide-react';
+import { DownloadConfirmDialog } from '@/components/assets/download-confirm-dialog';
+import { toast } from 'sonner';
 
 export default function AssetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -18,6 +20,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
   const allAssets = useAssetStore((s) => s.assets);
   const [selectedVersion, setSelectedVersion] = useState<number | null>(null);
   const [showCompare, setShowCompare] = useState(false);
+  const [downloadOpen, setDownloadOpen] = useState(false);
 
   if (!asset) {
     return (
@@ -108,7 +111,7 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
                   </Button>
                 )}
               </div>
-              <Button variant="outline" size="sm" className="h-8 text-xs gap-1.5 rounded-full px-4 border-border/60">
+              <Button variant="outline" size="sm" className="h-8 text-xs gap-1.5 rounded-full px-4 border-border/60" onClick={() => setDownloadOpen(true)}>
                 <Download className="w-3 h-3" /> 下载
               </Button>
             </div>
@@ -344,6 +347,13 @@ export default function AssetDetailPage({ params }: { params: Promise<{ id: stri
           )}
         </div>
       </div>
+
+      <DownloadConfirmDialog
+        asset={asset}
+        open={downloadOpen}
+        onOpenChange={setDownloadOpen}
+        onConfirm={(a) => toast.success(`已下载: ${a.name}`, { description: `版本 v${a.currentVersion}` })}
+      />
     </div>
   );
 }
